@@ -6,11 +6,11 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 
-from se_wrapper import helper
+from se_wrapper import help_utils
 from se_wrapper.element.web_element_wrapper import WebElementWrapper
 
 
-TimeoutType = helper.TimeoutType
+TimeoutType = help_utils.TimeoutType
 ElementType = Union[str, WebElement, WebElementWrapper]
 DEFAULT_TIMEOUT = 4
 
@@ -57,7 +57,7 @@ class Wait:
         return self._switch_on_element_type(
             target,
             string=self._wait_until(
-                ec.text_to_be_present_in_element((helper.get_selector_type(target), target), text),
+                ec.text_to_be_present_in_element((help_utils.get_selector_type(target), target), text),
                 timeout
             ),
             web_element_type=self._wait_until(lambda: text in target.text, timeout),
@@ -73,7 +73,7 @@ class Wait:
         as it ignores whitespaces, newtabs, cases for similarity comparision.
         """
         if isinstance(target, str):
-            selector_type = helper.get_selector_type(target)
+            selector_type = help_utils.get_selector_type(target)
             element = self._webdriver.find_element(by=selector_type, value=target)
         elif isinstance(target, WebElement):
             element = target
@@ -109,7 +109,7 @@ class Wait:
         """ Wait until web element gets expected class """
 
         if isinstance(target, str):
-            selector_type = helper.get_selector_type(target)
+            selector_type = help_utils.get_selector_type(target)
             element = self._webdriver.find_element(by=selector_type, value=target)
         elif isinstance(target, WebElement):
             element = target
@@ -171,7 +171,7 @@ class Wait:
         return wait.WebDriverWait(self._webdriver, timeout).until(condition)
 
     def _set_condition_for_wait(self, selector, condition, timeout):
-        by_ = helper.get_selector_type(selector)
+        by_ = help_utils.get_selector_type(selector)
         return self._wait_until(condition((by_, selector)), timeout)
 
     @staticmethod
