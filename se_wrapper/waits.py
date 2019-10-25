@@ -186,5 +186,5 @@ class Wait:
         }
         func = switch.get(target.__class__.__name__, None)
         if not func:
-            raise TypeError("Target shall be instance of string, WebElement or WrappedWebElement.")
+            raise TypeError("Target shall be an instance of string, WebElement or WebElementWrapper.")
         return func()
