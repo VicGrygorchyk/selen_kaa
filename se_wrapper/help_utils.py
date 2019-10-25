@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 
 TimeoutType = Union[int, float]
+DEFAULT_TIMEOUT = 4
 
 
 def get_selector_type(selector):

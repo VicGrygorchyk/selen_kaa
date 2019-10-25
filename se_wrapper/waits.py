@@ -12,7 +12,7 @@ from se_wrapper.element.web_element_wrapper import WebElementWrapper
 
 TimeoutType = help_utils.TimeoutType
 ElementType = Union[str, WebElement, WebElementWrapper]
-DEFAULT_TIMEOUT = 4
+DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
 
 
 class Wait:
