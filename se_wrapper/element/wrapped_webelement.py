@@ -5,6 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 
 from se_wrapper import help_utils
 from se_wrapper.browser_driver import BrowserDriver
+from se_wrapper.element.element_waits import ElementWaits
 from se_wrapper.element.wrapped_element_interface import WrappedElementInterface
 from se_wrapper.errors import ElementNotClickableError
 from se_wrapper.element.expectations import Expectations
@@ -23,6 +24,7 @@ class WrappedWebElement(WrappedElementInterface):
 
     def __init__(self, webdriver: BrowserDriver, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         self.expect = Expectations(self._webdriver, self.web_element, self.timeout)
+        self.wait_for_element = ElementWaits(self._webdriver, self.web_element, self.timeout)
         self.timeout = timeout
         self._webdriver = webdriver
         self._selector = selector
