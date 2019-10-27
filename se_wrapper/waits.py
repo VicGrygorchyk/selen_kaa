@@ -34,7 +34,7 @@ class Wait:
             wrapped_element_type=self._wait_until(ec.visibility_of(target.web_element), timeout)
         )
 
-    def element_to_disappear(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def element_to_be_invisible(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """True if the element is not present and/or not visible.
         True if element is not visible, but it's still present in DOM.
         """
@@ -192,8 +192,27 @@ class Wait:
                                    f"Got {error_url}\n{exc.msg}")
 
     def page_title_contains(self, title: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
-        """Wait for page title contains a specific string."""
+        """Wait for page's title to contain a specific string."""
         return self._wait_until(condition=ec.title_contains(title), timeout=timeout)
+
+    def element_to_include_child_element(self, target: ElementType,
+                                         child_css_selector,
+                                         timeout: TimeoutType):
+        """Wait for a web element to have another web element as a child element."""
+
+        def nested(web_element):
+            if web_element.find_element(by=help_utils.get_selector_type(child_css_selector),
+                                        value=child_css_selector):
+                return True
+            return False
+
+        webelement_ = target
+        if isinstance(target, str):
+            webelement_ = self._webdriver.find_element(by=help_utils.get_selector_type(target),
+                                                       value=target)
+        self.wait_fluently(lambda func: nested(webelement_),
+                           timeout,
+                           f"TimeoutException while waiting for the element to have a child {child_css_selector}")
 
     def _wait_until(self, condition, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wrapper method around Selenium WebDriverWait() with until().
