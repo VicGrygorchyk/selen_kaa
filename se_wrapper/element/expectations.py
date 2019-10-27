@@ -123,6 +123,6 @@ class Expectations:
         if timeout:
             timeout_ = timeout
         try:
-            return self._webdriver.wait_element_staleness(self._web_element, timeout_)
+            return self._webdriver.wait_for.no_element_in_dom(self._web_element, timeout_)
         except TimeoutException:
             return False
