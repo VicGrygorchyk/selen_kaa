@@ -88,7 +88,7 @@ class BrowserDriver:
         """
         result = []
         try:
-            if self.wait_element_be_in_dom(selector, timeout=timeout):
+            if self.wait_for.element_be_in_dom(selector, timeout=timeout):
                 result = self._webdriver.find_elements(by=self.get_selector_type(selector), value=selector)
         except TimeoutException:
             pass

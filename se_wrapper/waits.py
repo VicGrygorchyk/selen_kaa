@@ -195,6 +195,11 @@ class Wait:
         """Wait for page's title to contain a specific string."""
         return self._wait_until(condition=ec.title_contains(title), timeout=timeout)
 
+    def to_be_present_elements(self, css_selector: str, amount: int):
+        """Wait for there to be N elements with the same css selector"""
+        # TODO
+        raise NotImplementedError
+
     def element_to_include_child_element(self, target: ElementType,
                                          child_css_selector,
                                          timeout: TimeoutType):
