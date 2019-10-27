@@ -7,9 +7,10 @@ class WrappedElementsArray:
     instead of standard find_elements().
     """
 
-    def __init__(self, webdriver, css_selector):
+    def __init__(self, webdriver, css_selector, timeout):
         self._webdriver = webdriver
         self._css_selector = css_selector
+        self._timeout = timeout
         self._elements_array = None
 
     @property
@@ -19,6 +20,6 @@ class WrappedElementsArray:
         return self._elements_array
 
     def __getitem__(self, index):
-        kaa_element = WrappedWebElement(self._webdriver, self._css_selector)
+        kaa_element = WrappedWebElement(self._webdriver, self._css_selector, self._timeout)
         kaa_element.web_element = self._elements_array[index]
         return self._elements_array[index]
