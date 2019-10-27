@@ -5,7 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 
 from se_wrapper import help_utils
 from se_wrapper.browser_driver import BrowserDriver
-from se_wrapper.element.web_element_wrapper import WebElementWrapper
+from se_wrapper.element.wrapped_element_interface import WrappedElementInterface
 from se_wrapper.errors import ElementNotClickableError
 
 
@@ -13,7 +13,7 @@ DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
 TimeoutType = help_utils.TimeoutType
 
 
-class WrappedWebElement(WebElementWrapper):
+class WrappedWebElement(WrappedElementInterface):
     """Class is used to provide a lazy initialization of the WebElement.
     WebElement is going to be searched only when is called.
     Web element can be declared in __init__ of the page class and be found only when needed for interaction.
@@ -22,7 +22,7 @@ class WrappedWebElement(WebElementWrapper):
 
     def __init__(self, webdriver: BrowserDriver, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         self.webdriver = webdriver
-        self.selector = selector
+        self._selector = selector
         self.timeout = timeout
         self._element = None
 
@@ -40,6 +40,10 @@ class WrappedWebElement(WebElementWrapper):
     @web_element.setter
     def web_element(self, element: WebElement):
         self._element = element
+
+    @property
+    def selector(self):
+        return self._selector
 
     def __getattr__(self, attr):
         """Calls method or properties on self.web_element.

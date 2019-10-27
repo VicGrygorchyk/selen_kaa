@@ -4,10 +4,10 @@ from typing import Union
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
-from se_wrapper.element.web_element_wrapper import WebElementWrapper
+from se_wrapper.element.wrapped_element_interface import WrappedElementInterface
 
 
-ElementType = Union[str, WebElement, WebElementWrapper]
+ElementType = Union[str, WebElement, WrappedElementInterface]
 TimeoutType = Union[int, float]
 DEFAULT_TIMEOUT = 4
 
