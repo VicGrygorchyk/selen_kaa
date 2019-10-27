@@ -2,8 +2,12 @@ from re import match
 from typing import Union
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
+
+from se_wrapper.element.web_element_wrapper import WebElementWrapper
 
 
+ElementType = Union[str, WebElement, WebElementWrapper]
 TimeoutType = Union[int, float]
 DEFAULT_TIMEOUT = 4
 

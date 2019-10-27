@@ -1,5 +1,3 @@
-from typing import Union
-
 from selenium.webdriver.support import wait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -7,11 +5,10 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 
 from se_wrapper import help_utils
-from se_wrapper.element.web_element_wrapper import WebElementWrapper
 
 
 TimeoutType = help_utils.TimeoutType
-ElementType = Union[str, WebElement, WebElementWrapper]
+ElementType = help_utils.ElementType
 DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
 
 
