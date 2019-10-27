@@ -3,10 +3,6 @@ from re import compile
 from selenium.common.exceptions import WebDriverException
 
 
-
-
-
-
 class ElementNotClickableError(WebDriverException):
     """ Special exception for cases where element can't receive a click. """
 
