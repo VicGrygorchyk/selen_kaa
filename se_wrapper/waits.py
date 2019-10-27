@@ -208,6 +208,7 @@ class Wait:
 
         webelement_ = target
         if isinstance(target, str):
+            self.element_be_in_dom(target)
             webelement_ = self._webdriver.find_element(by=help_utils.get_selector_type(target),
                                                        value=target)
         self.wait_fluently(lambda func: nested(webelement_),
