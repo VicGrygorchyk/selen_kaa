@@ -23,16 +23,17 @@ class WrappedWebElement(WrappedElementInterface):
     """
 
     def __init__(self, webdriver: BrowserDriver, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
-        self.expect = Expectations(self._webdriver, self.web_element, self.timeout)
-        self.wait_for_element = ElementWaits(self._webdriver, self.web_element, self.timeout)
+
         self.timeout = timeout
         self._webdriver = webdriver
         self._selector = selector
         self._element = None
+        self._expect = None
+        self._should = None
 
     @property
     def web_element(self):
-        """Get reference to Selenium webelement. """
+        """Get reference to Selenium WebElement."""
         if self._element is None:
             try:
                 self._element = self._webdriver.find_element_by_selector(self.selector)
@@ -47,7 +48,26 @@ class WrappedWebElement(WrappedElementInterface):
 
     @property
     def selector(self):
+        """Shall be css selector."""
         return self._selector
+
+    @property
+    def expect(self):
+        """Expect returns True if the condition is positive till timeout is reached,
+        after timeout it returns False.
+        """
+        if self._expect is None:
+            self._expect = Expectations(self._webdriver, self.web_element, self.timeout)
+        return self._expect
+
+    @property
+    def should(self):
+        """Should returns True if the condition is positive till timeout is reached,
+        otherwise it throws TimeoutException.
+        """
+        if self._should is None:
+            self._should = ElementWaits(self._webdriver, self.web_element, self.timeout)
+        return self._should
 
     def __getattr__(self, attr):
         """Calls method or properties on self.web_element.
@@ -75,7 +95,7 @@ class WrappedWebElement(WrappedElementInterface):
         self.web_element.click()
 
     def click(self, timeout: TimeoutType = DEFAULT_TIMEOUT):
-        """ Click element, throws ElementNotClickableException if element can't handle click.
+        """Click element, throws ElementNotClickableException if element can't handle click.
         Wait with timeout, if click is not possible.
         """
         start_time = time.time()
