@@ -195,11 +195,6 @@ class Wait:
         """Wait for page's title to contain a specific string."""
         return self._wait_until(condition=ec.title_contains(title), timeout=timeout)
 
-    def to_be_present_elements(self, css_selector: str, amount: int):
-        """Wait for there to be N elements with the same css selector"""
-        # TODO
-        raise NotImplementedError
-
     def element_to_include_child_element(self, target: ElementType,
                                          child_css_selector,
                                          timeout: TimeoutType):
@@ -227,6 +222,14 @@ class Wait:
         :return: boolean
         """
         return wait.WebDriverWait(self._webdriver, timeout).until(condition)
+
+    def _wait_until_not(self, condition, timeout: TimeoutType = DEFAULT_TIMEOUT):
+        """Wrapper method around Selenium WebDriverWait() with until_not().
+        :param condition: Selenium expected_conditions
+        :param timeout: int
+        :return: boolean
+        """
+        return wait.WebDriverWait(self._webdriver, timeout).until_not(condition)
 
     def _set_condition_for_wait(self, selector, condition, timeout):
         by_ = help_utils.get_selector_type(selector)

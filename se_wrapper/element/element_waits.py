@@ -40,14 +40,6 @@ class ElementWaits:
         timeout_ = timeout if timeout else self._timeout
         return self._webdriver.wait_for.element_to_get_class(self._web_element, expected_class, timeout_)
 
-    def not_to_have_class(self, absent_class: str, timeout: TimeoutType):
-        """True when an element doesn't have a class.
-        :param absent_class: class_name for a class to be absent.
-        :param timeout: time to wait for an element to not have a class name.
-
-        """
-        pass
-
     def to_include_element(self, child_css_selector: str, timeout: TimeoutType):
         """True when an element gets a desired child element.
         :param child_css_selector: a css selector for a child element.
