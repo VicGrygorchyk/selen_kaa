@@ -1,6 +1,3 @@
-import time
-
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
 
 from se_wrapper.browser_driver import BrowserDriver
@@ -92,7 +89,7 @@ class ElementWaits:
 
     def not_present_in_dom(self, timeout: TimeoutType):
         """True for an element to be stale or absent in DOM.
-        :param timeout: equal to the self.timeout if other not passed. :type: int
+        :param timeout: equal to the self.timeout if other not passed.
 
         """
         timeout_ = self._timeout
