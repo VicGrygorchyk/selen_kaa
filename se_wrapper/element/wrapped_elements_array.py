@@ -20,6 +20,6 @@ class WrappedElementsArray:
         return self._elements_array
 
     def __getitem__(self, index):
-        kaa_element = WrappedWebElement(self._webdriver, self._css_selector, self._timeout)
-        kaa_element.web_element = self._elements_array[index]
+        element = WrappedWebElement(self._webdriver, self._css_selector, self._timeout)
+        element.web_element = self._elements_array[index]
         return self._elements_array[index]
