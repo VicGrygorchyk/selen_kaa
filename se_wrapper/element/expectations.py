@@ -126,3 +126,17 @@ class Expectations:
             return self._webdriver.wait_for.no_element_in_dom(self._web_element, timeout_)
         except TimeoutException:
             return False
+
+    def to_be_on_the_screen(self, timeout: TimeoutType):
+        """True for an element is present on the screen (inside the viewport).
+        False if element's coordinates don't match viewport height and width.
+        :param timeout: equal to the self.timeout if other not passed.
+
+        """
+        timeout_ = self._timeout
+        if timeout:
+            timeout_ = timeout
+        try:
+            return self._webdriver.wait_for.element_to_be_in_viewport(self._web_element, timeout_)
+        except TimeoutException:
+            return False
