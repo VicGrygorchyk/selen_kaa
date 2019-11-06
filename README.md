@@ -1,2 +1,1 @@
-https://packaging.python.org/tutorials/packaging-projects/
-
+A lightweight wrapper of Selenium Python binding.
