@@ -1,7 +1,7 @@
-from se_wrapper.element.wrapped_webelement import WrappedWebElement
+from se_wrapper.element.se_web_element import SeWebElement
 
 
-class WrappedElementsArray:
+class SeElementsArray:
     """Lazy initialization of a list of web_elements.
     We need this for calling a list of wrapped web_elements,
     instead of standard find_elements().
@@ -20,6 +20,6 @@ class WrappedElementsArray:
         return self._elements_array
 
     def __getitem__(self, index):
-        element = WrappedWebElement(self._webdriver, self._css_selector, self._timeout)
+        element = SeWebElement(self._webdriver, self._css_selector, self._timeout)
         element.web_element = self._elements_array[index]
         return self._elements_array[index]

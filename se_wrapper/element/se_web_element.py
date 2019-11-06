@@ -6,7 +6,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from se_wrapper import help_utils
 from se_wrapper.browser_driver import BrowserDriver
 from se_wrapper.element.element_waits import ElementWaits
-from se_wrapper.element.wrapped_element_interface import WrappedElementInterface
+from se_wrapper.element.se_element_interface import SeElementInterface
 from se_wrapper.errors import ElementNotClickableError
 from se_wrapper.element.expectations import Expectations
 
@@ -15,7 +15,7 @@ DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
 TimeoutType = help_utils.TimeoutType
 
 
-class WrappedWebElement(WrappedElementInterface):
+class SeWebElement(SeElementInterface):
     """Class is used to provide a lazy initialization of the WebElement.
     WebElement is going to be searched only when is called.
     Web element can be declared in __init__ of the page class and be found only when needed for interaction.

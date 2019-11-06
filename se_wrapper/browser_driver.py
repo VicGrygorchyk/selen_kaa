@@ -10,8 +10,8 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.remote.webelement import WebElement
 
-from se_wrapper.element.wrapped_elements_array import WrappedElementsArray
-from se_wrapper.element.wrapped_webelement import WrappedWebElement
+from se_wrapper.element.se_elements_array import SeElementsArray
+from se_wrapper.element.se_web_element import SeWebElement
 from se_wrapper.waits import Wait
 from se_wrapper import help_utils
 
@@ -51,7 +51,7 @@ class BrowserDriver:
     def action_chains(self):
         return ActionChains(self._webdriver)
 
-    def init_web_element(self, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT) -> WrappedWebElement:
+    def init_web_element(self, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT) -> SeWebElement:
         """Init a new WrappedWebElement.
         Lazy initialization. Element would be called on the time of first interaction.
         :param selector: str as css selector or xpath
@@ -60,14 +60,14 @@ class BrowserDriver:
         """
         if selector is None:
             raise Exception("Selector should be not empty.")
-        return WrappedWebElement(self, selector, timeout)
+        return SeWebElement(self, selector, timeout)
 
-    def init_all_web_elements(self, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT) -> WrappedElementsArray:
+    def init_all_web_elements(self, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT) -> SeElementsArray:
         """Init a list with references to WrappedWebElement.
         Lazy initialization. All elements would be called on the time of first interaction
         with any of the elements.
         """
-        return WrappedElementsArray(self, selector, timeout)
+        return SeElementsArray(self, selector, timeout)
 
     def find_element_by_css(self, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT) -> WebElement:
         """ Universal method to look for the web element by provided selector.

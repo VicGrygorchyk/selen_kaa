@@ -1,7 +1,7 @@
 from abc import ABC
 
 
-class WrappedElementInterface(ABC):
+class SeElementInterface(ABC):
     """Abstract class for wrapped web element.
     Used for type reference. Shall be implemented in separate class.
     """

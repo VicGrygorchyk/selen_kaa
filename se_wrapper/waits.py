@@ -8,7 +8,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 
 from se_wrapper import help_utils
-from se_wrapper.element.wrapped_element_interface import WrappedElementInterface
+from se_wrapper.element.se_element_interface import SeElementInterface
 
 
 TimeoutType = help_utils.TimeoutType
@@ -267,7 +267,7 @@ class Wait:
         Selenium WebElement or WrappedWebElement.
 
         """
-        if isinstance(target, WrappedElementInterface):
+        if isinstance(target, SeElementInterface):
             func = wrapped_element_type
         else:
             switch = {
