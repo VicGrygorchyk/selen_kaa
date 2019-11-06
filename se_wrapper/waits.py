@@ -215,6 +215,32 @@ class Wait:
                            timeout,
                            f"TimeoutException while waiting for the element to have a child {child_css_selector}")
 
+    def element_to_be_in_viewport(self, element, timeout: TimeoutType = DEFAULT_TIMEOUT):
+        """Wait until element inside viewport's coordinates."""
+        find_viewport_pos_script = """
+              var height = document.documentElement.clientHeight;
+              var width = document.documentElement.clientWidth;
+              var arr = [height, width];
+              return arr;
+          """
+        rect_ = self._webdriver.execute_script(find_viewport_pos_script)
+        height = rect_[0]
+        width = rect_[1]
+
+        def get_element_pos():
+
+            nonlocal height, width
+            pos_x = element.location.get('x')
+            pos_y = element.location.get('y')
+            if all((pos_x < width, pos_y < height)):
+                return element
+            return None
+
+        return self.wait_fluently(get_element_pos,
+                                  timeout,
+                                  f"TimeoutException while waiting {timeout} sec for element "
+                                  f"to be in viewport.")
+
     def _wait_until(self, condition, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wrapper method around Selenium WebDriverWait() with until().
         :param condition: Selenium expected_condtions
@@ -255,17 +281,18 @@ class Wait:
 
     @staticmethod
     def wait_fluently(condition: Callable, timeout: TimeoutType, err_msg: str):
-        """Custom wait for special cases.
+        """Custom wait for special cases where driver is not needed as arg for condition.
         :param condition: function to verify if Condition is True
         :param timeout: time to wait for positive condition.
         :param err_msg: error message
-        :return: True if condition, else raises TimeoutException
+        :return: element if condition is True, else raises TimeoutException
 
         """
         start_time = time.time()
         while True:
             if time.time() - start_time >= timeout:
                 raise TimeoutException(err_msg)
-            if condition:
-                return True
+            res = condition()
+            if res:
+                return res
             time.sleep(0.3)
