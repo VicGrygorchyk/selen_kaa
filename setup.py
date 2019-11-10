@@ -22,17 +22,23 @@ setup(
     version="0.0.1",
     author="Viktor Grygorchuk",
     author_email="vvgrygorchuk@gmail.com",
+    keywords=['Selenium', 'Test Automation'],
     description="A lightweight wrapper around Selenium python repo.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
-    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    url="https://github.com/VicGrygorchyk/selen_kaa.git",
+    download_url='https://github.com/VicGrygorchyk/selen_kaa/archive/0.0.1.tar.gz',
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "test*"]),
     install_requires=get_requirements(),
     classifiers=[
-        "Programming Language :: Python :: 3",
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers, Test Engineer, Quality Assurance',
+        'Topic :: Software Development :: Build Tools',
+        "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ],
     test_suite="tests",
-    tests_require=get_test_requirements()
+    tests_require=get_test_requirements(),
+    python_requires='>=3.6',
 )
