@@ -10,10 +10,9 @@ from se_wrapper.element.se_element_interface import SeElementInterface
 from se_wrapper.errors import ElementNotClickableError
 from se_wrapper.element.expectations import Expectations
 from se_wrapper.se_web_driver import SeWebDriver
-from se_wrapper.web_driver_config import WebDriverConfig
 
 
-DEFAULT_TIMEOUT = WebDriverConfig.DEFAULT_TIMEOUT
+DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
 TimeoutType = help_utils.TimeoutType
 
 

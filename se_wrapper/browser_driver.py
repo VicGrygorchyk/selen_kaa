@@ -6,12 +6,10 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver import ActionChains
 
-from se_wrapper.waits import Wait
 from se_wrapper import help_utils
 from se_wrapper.web_driver_config import WebDriverConfig
 
 
-DEFAULT_TIMEOUT = WebDriverConfig.DEFAULT_TIMEOUT
 TimeoutType = help_utils.TimeoutType
 
 
@@ -19,7 +17,6 @@ class BrowserDriver:
 
     def __init__(self, webdriver: WebDriver):
         self._webdriver: WebDriver = webdriver
-        self.wait_for = Wait(self._webdriver)
         self.config = WebDriverConfig()
 
 
@@ -48,7 +45,7 @@ class BrowserDriver:
     def action_chains(self):
         return ActionChains(self._webdriver)
 
-    def init_web_element(self, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def init_web_element(self, selector: str, timeout: TimeoutType = None):
         """Init a new WrappedWebElement.
         Lazy initialization. Element would be called on the time of first interaction.
         :param selector: str as css selector or xpath
@@ -60,11 +57,12 @@ class BrowserDriver:
         timeout_ = timeout or self.config.DEFAULT_TIMEOUT
         return self.config.WrappedElementType(self._webdriver, selector, timeout_)
 
-    def init_all_web_elements(self, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None):
         """Init a list with references to WrappedWebElement.
         Lazy initialization. All elements would be called on the time of first interaction
         with any of the elements.
         :return: List of WrappedWebElements
         """
         timeout_ = timeout or self.config.DEFAULT_TIMEOUT
-        return self.config.WrappedElementArrayType(self._webdriver, selector, timeout_)
+        WrappedElementType = self.config.WrappedElementType
+        return self.config.WrappedElementArrayType(self._webdriver, selector, WrappedElementType, timeout_)

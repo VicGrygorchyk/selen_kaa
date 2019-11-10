@@ -2,10 +2,9 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 from se_wrapper import help_utils
 from se_wrapper.se_web_driver import SeWebDriver
-from se_wrapper.web_driver_config import WebDriverConfig
 
 
-DEFAULT_TIMEOUT = WebDriverConfig.DEFAULT_TIMEOUT
+DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
 TimeoutType = help_utils.TimeoutType
 
 
@@ -15,11 +14,13 @@ class SeElementsArray:
     instead of standard find_elements().
     """
 
-    def __init__(self, webdriver: WebDriver, css_selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def __init__(self, webdriver: WebDriver, css_selector: str,
+                 WrappedElementType: type, timeout: TimeoutType = DEFAULT_TIMEOUT):
         self._webdriver = webdriver
         self._css_selector = css_selector
         self._timeout = timeout
         self._elements_array = None
+        self.WrappedElementType = WrappedElementType
 
     @property
     def lazy_array(self):
@@ -29,6 +30,6 @@ class SeElementsArray:
         return self._elements_array
 
     def __getitem__(self, index):
-        element = WebDriverConfig.WrappedElementType(self._webdriver, self._css_selector, self._timeout)
+        element = self.WrappedElementType(self._webdriver, self._css_selector, self._timeout)
         element.web_element = self._elements_array[index]
         return self._elements_array[index]
