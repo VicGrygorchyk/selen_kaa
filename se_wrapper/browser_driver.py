@@ -16,7 +16,7 @@ TimeoutType = help_utils.TimeoutType
 class BrowserDriver:
 
     def __init__(self, webdriver: WebDriver):
-        self._webdriver: WebDriver = webdriver
+        self.webdriver: WebDriver = webdriver
         self.config = WebDriverConfig()
 
 
@@ -28,12 +28,12 @@ class BrowserDriver:
 
         """
         try:
-            orig_attr = self._webdriver.__getattribute__(attr)
+            orig_attr = self.webdriver.__getattribute__(attr)
             if callable(orig_attr):
                 def hooked(*args, **kwargs):
                     result = orig_attr(*args, **kwargs)
                     # prevent recursion
-                    if result == self._webdriver:
+                    if result == self.webdriver:
                         return self
                     return result
                 return hooked
@@ -43,7 +43,7 @@ class BrowserDriver:
 
     @property
     def action_chains(self):
-        return ActionChains(self._webdriver)
+        return ActionChains(self.webdriver)
 
     def init_web_element(self, selector: str, timeout: TimeoutType = None):
         """Init a new WrappedWebElement.
@@ -55,7 +55,7 @@ class BrowserDriver:
         if selector is None:
             raise Exception("Selector should be not empty.")
         timeout_ = timeout or self.config.DEFAULT_TIMEOUT
-        return self.config.WrappedElementType(self._webdriver, selector, timeout_)
+        return self.config.WrappedElementType(self.webdriver, selector, timeout_)
 
     def init_all_web_elements(self, selector: str, timeout: TimeoutType = None):
         """Init a list with references to WrappedWebElement.
@@ -65,4 +65,4 @@ class BrowserDriver:
         """
         timeout_ = timeout or self.config.DEFAULT_TIMEOUT
         WrappedElementType = self.config.WrappedElementType
-        return self.config.WrappedElementArrayType(self._webdriver, selector, WrappedElementType, timeout_)
+        return self.config.WrappedElementArrayType(self.webdriver, selector, WrappedElementType, timeout_)
