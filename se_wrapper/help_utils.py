@@ -9,7 +9,6 @@ from se_wrapper.element.se_element_interface import SeElementInterface
 
 ElementType = Union[str, WebElement, SeElementInterface]
 TimeoutType = Union[int, float]
-DEFAULT_TIMEOUT = 4
 
 
 def get_selector_type(selector):
