@@ -11,6 +11,7 @@ from se_wrapper.errors import ElementNotClickableError
 from se_wrapper.element.expectations import Expectations
 from se_wrapper.waits import Wait
 
+
 DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
 TimeoutType = help_utils.TimeoutType
 

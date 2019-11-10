@@ -1,10 +1,7 @@
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.remote.webdriver import WebDriver
 
 from se_wrapper import help_utils
 from se_wrapper.element.element_waits import ElementWaits
-from se_wrapper.waits import Wait
 
 TimeoutType = help_utils.TimeoutType
 
