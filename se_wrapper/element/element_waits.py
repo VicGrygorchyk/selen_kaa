@@ -1,14 +1,15 @@
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.remote.webdriver import WebDriver
 
-from se_wrapper.browser_driver import BrowserDriver
 from se_wrapper.help_utils import TimeoutType
+from se_wrapper.waits import Wait
 
 
 class ElementWaits:
     """True if condition is fulfilled else throws exception."""
 
-    def __init__(self, webdriver: BrowserDriver, web_element: WebElement, timeout: TimeoutType):
-        self._webdriver = webdriver
+    def __init__(self, webdriver: WebDriver, web_element: WebElement, timeout: TimeoutType):
+        self._wait = Wait(webdriver)
         self._web_element = web_element
         self._timeout = timeout
 
@@ -18,7 +19,7 @@ class ElementWaits:
 
         """
         timeout_ = timeout if timeout else self._timeout
-        return self._webdriver.wait_for.element_to_be_visible(self._web_element, timeout=timeout_)
+        return self._wait.element_to_be_visible(self._web_element, timeout=timeout_)
 
     def be_invisible(self, timeout: TimeoutType):
         """True if an element is not visible on the html page.
@@ -26,7 +27,7 @@ class ElementWaits:
 
         """
         timeout_ = timeout if timeout else self._timeout
-        return self._webdriver.wait_for.element_to_be_invisible(self._web_element, timeout_)
+        return self._wait.element_to_be_invisible(self._web_element, timeout_)
 
     def have_class(self, expected_class: str, timeout: TimeoutType):
         """True when an element has a specific class.
@@ -35,7 +36,7 @@ class ElementWaits:
 
         """
         timeout_ = timeout if timeout else self._timeout
-        return self._webdriver.wait_for.element_to_get_class(self._web_element, expected_class, timeout_)
+        return self._wait.element_to_get_class(self._web_element, expected_class, timeout_)
 
     def include_element(self, child_css_selector: str, timeout: TimeoutType):
         """True when an element gets a desired child element.
@@ -44,7 +45,7 @@ class ElementWaits:
 
         """
         timeout_ = timeout if timeout else self._timeout
-        return self._webdriver.wait_for.element_to_include_child_element(
+        return self._wait.element_to_include_child_element(
             self._web_element,
             child_css_selector,
             timeout_
@@ -59,7 +60,7 @@ class ElementWaits:
         timeout_ = self._timeout
         if timeout:
             timeout_ = timeout
-        return self._webdriver.wait_for.element_to_contain_text(self._web_element, text, timeout_)
+        return self._wait.element_to_contain_text(self._web_element, text, timeout_)
 
     def have_similar_text(self, text: str, timeout: TimeoutType):
         """True if an element has a similar text in texts attribute.
@@ -72,7 +73,7 @@ class ElementWaits:
         timeout_ = self._timeout
         if timeout:
             timeout_ = timeout
-        return self._webdriver.wait_for.element_have_similar_text(self._web_element, text, timeout_)
+        return self._wait.element_have_similar_text(self._web_element, text, timeout_)
 
     def have_exact_text(self, text: str, timeout: TimeoutType):
         """True if an element has exactly provided text, and no other text.
@@ -84,7 +85,7 @@ class ElementWaits:
         timeout_ = self._timeout
         if timeout:
             timeout_ = timeout
-        if self._webdriver.wait_for.element_to_contain_text(self._web_element, text, timeout_):
+        if self._wait.element_to_contain_text(self._web_element, text, timeout_):
             return self._web_element.text == text
 
     def not_present_in_dom(self, timeout: TimeoutType):
@@ -95,7 +96,7 @@ class ElementWaits:
         timeout_ = self._timeout
         if timeout:
             timeout_ = timeout
-        return self._webdriver.wait_for.no_element_in_dom(self._web_element, timeout_)
+        return self._wait.no_element_in_dom(self._web_element, timeout_)
 
     def be_on_the_screen(self, timeout: TimeoutType):
         """True for an element is present on the screen (inside the viewport).
@@ -108,4 +109,4 @@ class ElementWaits:
         timeout_ = self._timeout
         if timeout:
             timeout_ = timeout
-        return self._webdriver.wait_for.element_to_be_in_viewport(self._web_element, timeout_)
+        return self._wait.element_to_be_in_viewport(self._web_element, timeout_)

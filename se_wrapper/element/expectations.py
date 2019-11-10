@@ -1,22 +1,18 @@
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.remote.webdriver import WebDriver
 
-from se_wrapper.browser_driver import BrowserDriver
 from se_wrapper import help_utils
-
+from se_wrapper.element.element_waits import ElementWaits
+from se_wrapper.waits import Wait
 
 TimeoutType = help_utils.TimeoutType
 
 
-class Expectations:
+class Expectations(ElementWaits):
     """True if expectation is fulfilled else False.
     Errors are handled by returning False.
     """
-
-    def __init__(self, webdriver: BrowserDriver, web_element: WebElement, timeout: TimeoutType):
-        self._webdriver = webdriver
-        self._web_element = web_element
-        self._timeout = timeout
 
     def be_visible(self, timeout: TimeoutType):
         """True when an element is visible on the html page.
@@ -25,7 +21,7 @@ class Expectations:
         """
         timeout_ = timeout if timeout else self._timeout
         try:
-            return self._webdriver.wait_for.element_to_be_visible(self._web_element, timeout=timeout_)
+            return super().be_visible(timeout=timeout_)
         except TimeoutException:
             return False
 
@@ -36,7 +32,7 @@ class Expectations:
         """
         timeout_ = timeout if timeout else self._timeout
         try:
-            return self._webdriver.wait_for.element_to_be_invisible(self._web_element, timeout=timeout_)
+            return super().be_invisible(timeout=timeout_)
         except TimeoutException:
             return False
 
@@ -48,7 +44,7 @@ class Expectations:
         """
         timeout_ = timeout if timeout else self._timeout
         try:
-            return self._webdriver.wait_for.element_to_get_class(self._web_element, expected_class, timeout=timeout_)
+            return super().have_class(expected_class, timeout=timeout_)
         except TimeoutException:
             return False
 
@@ -60,11 +56,7 @@ class Expectations:
         """
         timeout_ = timeout if timeout else self._timeout
         try:
-            return self._webdriver.wait_for.element_to_include_child_element(
-                self._web_element,
-                child_css_selector,
-                timeout_
-            )
+            return super().include_element(child_css_selector, timeout_)
         except TimeoutException:
             return False
 
@@ -78,7 +70,7 @@ class Expectations:
         if timeout:
             timeout_ = timeout
         try:
-            return self._webdriver.wait_for.element_to_contain_text(self._web_element, text, timeout_)
+            return super().contain_text(text, timeout_)
         except TimeoutException:
             return False
 
@@ -94,7 +86,7 @@ class Expectations:
         if timeout:
             timeout_ = timeout
         try:
-            return self._webdriver.wait_for.element_have_similar_text(self._web_element, text, timeout_)
+            return super().have_similar_text(text, timeout_)
         except TimeoutException:
             return False
 
@@ -109,7 +101,7 @@ class Expectations:
         if timeout:
             timeout_ = timeout
         try:
-            if self._webdriver.wait_for.element_to_contain_text(self._web_element, text, timeout_):
+            if super().have_exact_text(text, timeout_):
                 return self._web_element.text == text
         except TimeoutException:
             return False
@@ -123,7 +115,7 @@ class Expectations:
         if timeout:
             timeout_ = timeout
         try:
-            return self._webdriver.wait_for.no_element_in_dom(self._web_element, timeout_)
+            return super().not_present_in_dom(timeout_)
         except TimeoutException:
             return False
 
@@ -137,6 +129,6 @@ class Expectations:
         if timeout:
             timeout_ = timeout
         try:
-            return self._webdriver.wait_for.element_to_be_in_viewport(self._web_element, timeout_)
+            return super().be_on_the_screen(timeout_)
         except TimeoutException:
             return False
