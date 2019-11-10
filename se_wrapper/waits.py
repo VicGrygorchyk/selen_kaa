@@ -8,12 +8,13 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 
 from se_wrapper import help_utils
+from se_wrapper.web_driver_config import WebDriverConfig
 from se_wrapper.element.se_element_interface import SeElementInterface
 
 
 TimeoutType = help_utils.TimeoutType
 ElementType = help_utils.ElementType
-DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
+DEFAULT_TIMEOUT = WebDriverConfig.DEFAULT_TIMEOUT
 
 
 class Wait:
