@@ -1,9 +1,9 @@
 from selenium.common.exceptions import TimeoutException
 
-from se_wrapper import help_utils
+from se_wrapper.utils import custom_types
 from se_wrapper.element.element_waits import ElementWaits
 
-TimeoutType = help_utils.TimeoutType
+TimeoutType = custom_types.TimeoutType
 
 
 class Expectations(ElementWaits):

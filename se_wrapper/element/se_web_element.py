@@ -1,18 +1,18 @@
 import time
 
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.common.exceptions import NoSuchElementException, WebDriverException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.remote.webelement import WebElement
 
-from se_wrapper import help_utils
+from se_wrapper.utils import custom_types
+from se_wrapper.utils import se_utils
 from se_wrapper.element.element_waits import ElementWaits
 from se_wrapper.element.se_element_interface import SeElementInterface
 from se_wrapper.errors import ElementNotClickableError
 from se_wrapper.element.expectations import Expectations
 
 
-DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
-TimeoutType = help_utils.TimeoutType
+TimeoutType = custom_types.TimeoutType
 
 
 class SeWebElement(SeElementInterface):
@@ -21,6 +21,8 @@ class SeWebElement(SeElementInterface):
     Web element can be declared in __init__ of the page class and be found only when needed for interaction.
 
     """
+
+    DEFAULT_TIMEOUT = 4
 
     def __init__(self, webdriver: WebDriver, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         self.timeout = timeout
@@ -35,7 +37,7 @@ class SeWebElement(SeElementInterface):
         """Get reference to Selenium WebElement."""
         if self._element is None:
             try:
-                return help_utils.find_element_by_css(self._webdriver, self.selector, self.timeout)
+                return se_utils.find_element_by_css(self._webdriver, self.selector, self.timeout)
             except NoSuchElementException as exc:
                 raise NoSuchElementException(f"Web Element with selector {self.selector} has not been found."
                                              f"\n{exc.msg}")

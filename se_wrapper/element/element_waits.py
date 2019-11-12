@@ -1,7 +1,7 @@
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from se_wrapper.help_utils import TimeoutType
+from se_wrapper.utils.custom_types import TimeoutType
 from se_wrapper.waits import Wait
 
 
