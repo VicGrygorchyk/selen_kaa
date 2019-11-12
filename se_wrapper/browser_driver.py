@@ -6,11 +6,11 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver import ActionChains
 
-from se_wrapper import help_utils
 from se_wrapper.web_driver_config import WebDriverConfig
+from se_wrapper.utils import custom_types
 
 
-TimeoutType = help_utils.TimeoutType
+TimeoutType = custom_types.TimeoutType
 
 
 class BrowserDriver:
