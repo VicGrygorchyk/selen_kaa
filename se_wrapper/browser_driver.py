@@ -54,7 +54,10 @@ class BrowserDriver:
         """
         if selector is None:
             raise Exception("Selector should be not empty.")
-        timeout_ = timeout or self.config.DEFAULT_TIMEOUT
+
+        timeout_ = self.config.DEFAULT_TIMEOUT
+        if timeout or timeout == 0:
+            timeout_ = timeout
         return self.config.WrappedElementType(self.webdriver, selector, timeout_)
 
     def init_all_web_elements(self, selector: str, timeout: TimeoutType = None):
@@ -63,6 +66,8 @@ class BrowserDriver:
         with any of the elements.
         :return: List of WrappedWebElements
         """
-        timeout_ = timeout or self.config.DEFAULT_TIMEOUT
+        timeout_ = self.config.DEFAULT_TIMEOUT
+        if timeout or timeout == 0:
+            timeout_ = timeout
         WrappedElementType = self.config.WrappedElementType
         return self.config.WrappedElementArrayType(self.webdriver, selector, WrappedElementType, timeout_)
