@@ -1,17 +1,15 @@
 from re import match
-from typing import Union, List
+from typing import List
 
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-from se_wrapper.element.se_element_interface import SeElementInterface
 from se_wrapper.waits import Wait
+from se_wrapper.utils import custom_types
 
 
-ElementType = Union[str, WebElement, SeElementInterface]
-TimeoutType = Union[int, float, None]
-DEFAULT_TIMEOUT = 4
+TimeoutType = custom_types.TimeoutType
 
 
 def get_selector_type(selector):
