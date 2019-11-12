@@ -7,16 +7,18 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 
-from se_wrapper import help_utils
+from se_wrapper.utils import se_utils
 from se_wrapper.element.se_element_interface import SeElementInterface
+from se_wrapper.utils import custom_types
 
 
-TimeoutType = help_utils.TimeoutType
-ElementType = help_utils.ElementType
-DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
+TimeoutType = custom_types.TimeoutType
+ElementType = custom_types.ElementType
 
 
 class Wait:
+
+    DEFAULT_TIMEOUT = 4
 
     def __init__(self, webdriver: WebDriver):
         self._webdriver: WebDriver = webdriver
@@ -90,7 +92,7 @@ class Wait:
         return self._switch_on_element_type(
             target,
             string=self._wait_until(
-                ec.text_to_be_present_in_element((help_utils.get_selector_type(target), target), text),
+                ec.text_to_be_present_in_element((se_utils.get_selector_type(target), target), text),
                 timeout
             ),
             web_element_type=self._wait_until(lambda: text in target.text, timeout),
@@ -106,7 +108,7 @@ class Wait:
         as it ignores whitespaces, newtabs, cases for similarity comparision.
         """
         if isinstance(target, str):
-            selector_type = help_utils.get_selector_type(target)
+            selector_type = se_utils.get_selector_type(target)
             element = self._webdriver.find_element(by=selector_type, value=target)
         elif isinstance(target, WebElement):
             element = target
@@ -142,7 +144,7 @@ class Wait:
         """ Wait until web element gets expected class """
 
         if isinstance(target, str):
-            selector_type = help_utils.get_selector_type(target)
+            selector_type = se_utils.get_selector_type(target)
             element = self._webdriver.find_element(by=selector_type, value=target)
         elif isinstance(target, WebElement):
             element = target
@@ -201,7 +203,7 @@ class Wait:
         """Wait for a web element to have another web element as a child element."""
 
         def nested(web_element):
-            if web_element.find_element(by=help_utils.get_selector_type(child_css_selector),
+            if web_element.find_element(by=se_utils.get_selector_type(child_css_selector),
                                         value=child_css_selector):
                 return True
             return False
@@ -209,7 +211,7 @@ class Wait:
         webelement_ = target
         if isinstance(target, str):
             self.element_be_in_dom(target)
-            webelement_ = self._webdriver.find_element(by=help_utils.get_selector_type(target),
+            webelement_ = self._webdriver.find_element(by=se_utils.get_selector_type(target),
                                                        value=target)
         self.wait_fluently(lambda func: nested(webelement_),
                            timeout,
@@ -247,6 +249,8 @@ class Wait:
         :param timeout: int
         :return: boolean
         """
+        if not timeout:
+            timeout = 0
         return wait.WebDriverWait(self._webdriver, timeout).until(condition)
 
     def _wait_until_not(self, condition, timeout: TimeoutType = DEFAULT_TIMEOUT):
@@ -255,10 +259,14 @@ class Wait:
         :param timeout: int
         :return: boolean
         """
+        if not timeout:
+            timeout = 0
         return wait.WebDriverWait(self._webdriver, timeout).until_not(condition)
 
     def _set_condition_for_wait(self, selector, condition, timeout):
-        by_ = help_utils.get_selector_type(selector)
+        by_ = se_utils.get_selector_type(selector)
+        if not timeout:
+            timeout = 0
         return self._wait_until(condition((by_, selector)), timeout)
 
     @staticmethod
@@ -288,6 +296,8 @@ class Wait:
         :return: element if condition is True, else raises TimeoutException
 
         """
+        if not timeout:
+            timeout = 0
         start_time = time.time()
         while True:
             if time.time() - start_time >= timeout:
