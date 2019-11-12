@@ -1,7 +1,6 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from se_wrapper import help_utils
-from se_wrapper.se_web_driver import SeWebDriver
 
 
 DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
@@ -25,8 +24,9 @@ class SeElementsArray:
     @property
     def lazy_array(self):
         if not self._elements_array:
-            self._elements_array = SeWebDriver(self._webdriver).find_all_elements_by_css(self._css_selector,
-                                                                                         self._timeout)
+            self._elements_array = help_utils.find_all_elements_by_css(self._webdriver,
+                                                                       self._css_selector,
+                                                                       self._timeout)
         return self._elements_array
 
     def __getitem__(self, index):

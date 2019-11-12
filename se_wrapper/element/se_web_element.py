@@ -9,7 +9,6 @@ from se_wrapper.element.element_waits import ElementWaits
 from se_wrapper.element.se_element_interface import SeElementInterface
 from se_wrapper.errors import ElementNotClickableError
 from se_wrapper.element.expectations import Expectations
-from se_wrapper.se_web_driver import SeWebDriver
 
 
 DEFAULT_TIMEOUT = help_utils.DEFAULT_TIMEOUT
@@ -24,7 +23,6 @@ class SeWebElement(SeElementInterface):
     """
 
     def __init__(self, webdriver: WebDriver, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
-
         self.timeout = timeout
         self._webdriver = webdriver
         self._selector = selector
@@ -37,7 +35,7 @@ class SeWebElement(SeElementInterface):
         """Get reference to Selenium WebElement."""
         if self._element is None:
             try:
-                return SeWebDriver(self._webdriver).find_element_by_css(self.selector, self.timeout)
+                return help_utils.find_element_by_css(self._webdriver, self.selector, self.timeout)
             except NoSuchElementException as exc:
                 raise NoSuchElementException(f"Web Element with selector {self.selector} has not been found."
                                              f"\n{exc.msg}")
