@@ -1,4 +1,3 @@
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from se_wrapper.utils.custom_types import TimeoutType
@@ -8,9 +7,9 @@ from se_wrapper.waits import Wait
 class ElementWaits:
     """True if condition is fulfilled else throws exception."""
 
-    def __init__(self, webdriver: WebDriver, web_element: WebElement, timeout: TimeoutType):
+    def __init__(self, se_web_element, webdriver: WebDriver, timeout: TimeoutType):
         self._wait = Wait(webdriver)
-        self._web_element = web_element
+        self._web_element = se_web_element
         self._timeout = timeout
 
     def be_visible(self, timeout: TimeoutType):

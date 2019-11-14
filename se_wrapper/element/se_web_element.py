@@ -47,6 +47,9 @@ class SeWebElement(SeElementInterface):
     def web_element(self, element: WebElement):
         self._element = element
 
+    def callback_webelement(self):
+        return self.web_element
+
     @property
     def selector(self):
         """Shall be css selector."""
@@ -58,7 +61,7 @@ class SeWebElement(SeElementInterface):
         after timeout it returns False.
         """
         if self._expect is None:
-            self._expect = Expectations(self._webdriver, self.web_element, self.timeout)
+            self._expect = Expectations(self, self._webdriver, self.timeout)
         return self._expect
 
     @property
@@ -67,7 +70,7 @@ class SeWebElement(SeElementInterface):
         otherwise it throws TimeoutException.
         """
         if self._should is None:
-            self._should = ElementWaits(self._webdriver, self.web_element, self.timeout)
+            self._should = ElementWaits(self, self._webdriver, self.timeout)
         return self._should
 
     def __getattr__(self, attr):
