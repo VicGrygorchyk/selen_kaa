@@ -84,8 +84,7 @@ class ElementWaits:
         timeout_ = self._timeout
         if timeout:
             timeout_ = timeout
-        if self._wait.element_to_contain_text(self._web_element, text, timeout_):
-            return self._web_element.text == text
+        return self._wait.element_to_have_exact_text(self._web_element, text, timeout_)
 
     def not_present_in_dom(self, timeout: TimeoutType):
         """True for an element to be stale or absent in DOM.

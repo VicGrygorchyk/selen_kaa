@@ -40,7 +40,7 @@ class Wait:
             web_element_type=lambda: self._wait_until(ec.visibility_of(target), timeout),
             wrapped_element_type=lambda: self.wait_fluently(
                 wrapped_visible, timeout,
-                f"TimeoutException while waited {timeout} for the element {target.selector} to be visible."
+                f"TimeoutException while waited {timeout} for the element '{target.selector}' to be visible."
             )
         )
 
@@ -68,7 +68,7 @@ class Wait:
             wrapped_element_type=lambda: self.wait_fluently(
                 wrapped_webelement_disappears,
                 timeout,
-                f"TimeoutException while waited {timeout} for the element {target.selector} to disappear."
+                f"TimeoutException while waited {timeout} for the element '{target.selector}' to disappear."
             )
         )
 
@@ -95,7 +95,7 @@ class Wait:
                 wrapped_element_type=lambda: self.wait_fluently(
                     no_wrapped_webelement_in_dom,
                     timeout,
-                    f"TimeoutException while waited {timeout} for the element {target.selector} "
+                    f"TimeoutException while waited {timeout} for the element '{target.selector}' "
                     f"to not be present in DOM."
                 )
             )
@@ -106,10 +106,10 @@ class Wait:
 
         def has_text_in_target():
             target.get_web_element_by_timeout(timeout)
-            return target if text is target else False
+            return target if text in target.text else False
 
-        err_msg = f"TimeoutException while waited {timeout} for the element to have text {text}. " \
-                  f"Actual text {target.text}"
+        err_msg = f"TimeoutException while waited {timeout} for the element to contain text '{text}'. " \
+                  f"Actual text '{target.text}'"
 
         return self._switch_on_element_type(
             target,
@@ -118,6 +118,25 @@ class Wait:
                 timeout),
             web_element_type=lambda: self.wait_fluently(has_text_in_target, timeout, err_msg),
             wrapped_element_type=lambda: self.wait_fluently(has_text_in_target, timeout, err_msg)
+        )
+
+    def element_to_have_exact_text(self, target: ElementType, text: str,
+                                   timeout: TimeoutType = DEFAULT_TIMEOUT):
+
+        def has_exact_text_in_target():
+            target.get_web_element_by_timeout(timeout)
+            return target if text == target.text else False
+
+        err_msg = f"TimeoutException while waited {timeout} for the element to have exact text '{text}'." \
+                  f" Actual text '{target.text}'"
+
+        return self._switch_on_element_type(
+            target,
+            string=lambda: self._wait_until(
+                ec.text_to_be_present_in_element((se_utils.get_selector_type(target), target), text),
+                timeout),
+            web_element_type=lambda: self.wait_fluently(has_exact_text_in_target, timeout, err_msg),
+            wrapped_element_type=lambda: self.wait_fluently(has_exact_text_in_target, timeout, err_msg)
         )
 
     def element_have_similar_text(self, target: ElementType,
@@ -154,8 +173,8 @@ class Wait:
             return False
 
         return self.wait_fluently(get_text_in_element, timeout,
-                                  f"TimeoutException while waited {timeout} for text {expected_text}. "
-                                  f"Actual text is {text_}")
+                                  f"TimeoutException while waited {timeout} for text '{expected_text}'. "
+                                  f"Actual text is '{text_}'")
 
     def element_to_get_class(self, target: ElementType,
                              expected_class: str,
@@ -191,8 +210,8 @@ class Wait:
             return False
 
         return self.wait_fluently(check_class_in_element, timeout,
-                                  f"TimeoutException while waited  {timeout} for class {expected_class}. "
-                                  f"Actual class is {class_not_expected}.")
+                                  f"TimeoutException while waited  {timeout} for class '{expected_class}'. "
+                                  f"Actual class is '{class_not_expected}'.")
 
     def url_to_contain(self, expected_url: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """ Wait until webdriver gets expected url. """
@@ -208,8 +227,8 @@ class Wait:
         try:
             return self._wait_until(get_url, timeout)
         except TimeoutException as exc:
-            raise TimeoutException(msg=f"TimeoutException while waited {timeout} for url {expected_url}. "
-                                       f"Got {error_url}\n{exc.msg}")
+            raise TimeoutException(msg=f"TimeoutException while waited {timeout} for url '{expected_url}'. "
+                                       f"Got '{error_url}'.\n{exc.msg}")
 
     def page_title_contains(self, title: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait for page's title to contain a specific string."""
@@ -241,7 +260,7 @@ class Wait:
         return self.wait_fluently(lambda: nested(webelement_),
                                   timeout,
                                   f"TimeoutException while waiting for the element "
-                                  f"to have a child {child_css_selector}")
+                                  f"to have a child '{child_css_selector}'.")
 
     def element_to_be_in_viewport(self, target, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait until element inside viewport's coordinates."""

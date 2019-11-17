@@ -98,8 +98,7 @@ class Expectations(ElementWaits):
         if timeout:
             timeout_ = timeout
         try:
-            if super().have_exact_text(text, timeout_):
-                return self._web_element.text == text
+            return super().have_exact_text(text, timeout_)
         except TimeoutException:
             return False
 
