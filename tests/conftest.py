@@ -6,8 +6,8 @@ import pytest
 
 from tests.setup import BROWSER_LOG, DRIVER_LOG
 from tests.webapp.app import App
-from tests.browser_manager import BrowserManager
-from tests.setup import LOGS_SETUP, BROWSER_WIDTH, BROWSER_HEIGHT
+from tests.webapp.browser_manager import BrowserManager
+from tests.setup import BROWSER_WIDTH, BROWSER_HEIGHT
 
 
 TEST_REPORTS_DIR = "./test_reports"
@@ -26,8 +26,8 @@ def pytest_addoption(parser):
         "--usegrid", action="store_true", default=False, help="If specified, test will run on grid"
     )
     parser.addoption(
-        "--huburi", action="store", default="https://mhcamplium-ci.aws.wgen.net/proxy",
-        help="URI of grid hub, default is 'https://mhcamplium-ci.aws.wgen.net/proxy'"
+        "--grid_uri", action="store",
+        help="URI of grid hub"
     )
     parser.addoption(
         "--use_vd", action="store_true", default=False, help="If true - run tests in virtual displays."
