@@ -95,7 +95,7 @@ class ElementWaits:
         timeout_ = self._timeout
         if timeout:
             timeout_ = timeout
-        return self._wait.no_element_in_dom(self._web_element, timeout_)
+        return self._wait.element_not_present(self._web_element, timeout_)
 
     def be_on_the_screen(self, timeout: TimeoutType):
         """True for an element is present on the screen (inside the viewport).

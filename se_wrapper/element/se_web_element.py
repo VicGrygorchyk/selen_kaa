@@ -47,9 +47,6 @@ class SeWebElement(SeElementInterface):
     def web_element(self, element: WebElement):
         self._element = element
 
-    def callback_webelement(self):
-        return self.web_element
-
     @property
     def selector(self):
         """Shall be css selector."""

@@ -44,9 +44,7 @@ def find_element_by_css(webdriver: WebDriver, selector: str, timeout: TimeoutTyp
     """
     wait_ = Wait(webdriver)
     try:
-        if wait_.element_be_in_dom(selector, timeout=timeout):
-            return webdriver.find_element(by=get_selector_type(selector), value=selector)
-        raise NoSuchElementException(msg=f"Can't find element with locator='{selector}'")
+        return wait_.element_be_in_dom(selector, timeout=timeout)
     except TimeoutException:
         raise NoSuchElementException(msg=f"Waited {timeout} seconds. Can't find element with locator='{selector}'")
 

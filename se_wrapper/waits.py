@@ -29,25 +29,34 @@ class Wait:
         return self._set_condition_for_wait(selector, ec.presence_of_element_located, timeout)
 
     def element_to_be_visible(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
+
+        def wrapped_visible():
+            return target if target.is_displayed() else False
+
         return self._switch_on_element_type(
             target,
             string=lambda: self._set_condition_for_wait(target, ec.visibility_of_element_located, timeout),
             web_element_type=lambda: self._wait_until(ec.visibility_of(target), timeout),
-            wrapped_element_type=lambda: self._wait_until(ec.visibility_of(target.web_element), timeout)
+            wrapped_element_type=lambda: self.wait_fluently(
+                wrapped_visible, timeout,
+                f"TimeoutException while waited {timeout} for the element {target.selector} to be visible."
+            )
         )
 
     def element_to_be_invisible(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """True if the element is not present and/or not visible.
-        True if element is not visible, but it's still present in DOM.
+        Difference from `element_not_present`: returns True if element is not visible,
+        but it's still present in DOM.
         """
 
         def wrapped_webelement_disappears():
             try:
                 if target.web_element.is_displayed():
                     return False
-                return True
+                # return True if element is not stale, but is not displayed
+                return target
             except (NoSuchElementException, StaleElementReferenceException):
-                return True
+                return target
 
         return self._switch_on_element_type(
             target,
@@ -60,18 +69,19 @@ class Wait:
             )
         )
 
-    def no_element_in_dom(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
-        """If NoSuchElementException or StaleElementReferenceException
-        it's legit result for this condition.
+    def element_not_present(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
+        """True if there is no NoSuchElementException or StaleElementReferenceException.
 
         """
 
         def no_wrapped_webelement_in_dom():
             try:
-                if target.web_element:
+                if target.web_element.is_enabled():
                     return False
+                # it might be unreached condition, but keep it for code consistency
+                return target
             except (NoSuchElementException, StaleElementReferenceException):
-                return True
+                return target
 
         try:
             return self._switch_on_element_type(
@@ -89,18 +99,20 @@ class Wait:
             return True
 
     def element_to_contain_text(self, target: ElementType, text: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
+
+        def has_text_in_target():
+            return target if text is target else False
+
         err_msg = f"TimeoutException while waited {timeout} for the element to have text {text}. " \
                   f"Actual text {target.text}"
+
         return self._switch_on_element_type(
             target,
             string=lambda: self._wait_until(
                 ec.text_to_be_present_in_element((se_utils.get_selector_type(target), target), text),
-                timeout
-            ),
-            web_element_type=lambda: self.wait_fluently(lambda: text in target.text,
-                                                        timeout, err_msg),
-            wrapped_element_type=lambda: self.wait_fluently(lambda: text in target.web_element.text,
-                                                            timeout, err_msg)
+                timeout),
+            web_element_type=lambda: self.wait_fluently(has_text_in_target, timeout, err_msg),
+            wrapped_element_type=lambda: self.wait_fluently(has_text_in_target, timeout, err_msg)
         )
 
     def element_have_similar_text(self, target: ElementType,
@@ -133,7 +145,7 @@ class Wait:
                 return element
             if "".join(expected_text.split()) == "".join(element_text.split()):
                 return element
-            return None
+            return False
 
         return self.wait_fluently(get_text_in_element, timeout,
                                   f"TimeoutException while waited {timeout} for text {expected_text}. "
@@ -169,7 +181,7 @@ class Wait:
                 return element
             if class_not_expected is None:
                 class_not_expected = actual_class
-            return None
+            return False
 
         return self.wait_fluently(check_class_in_element, timeout,
                                   f"TimeoutException while waited  {timeout} for class {expected_class}. "
@@ -184,7 +196,7 @@ class Wait:
                 return True
             nonlocal error_url
             error_url = driver.current_url
-            return None
+            return False
 
         try:
             return self._wait_until(get_url, timeout)
@@ -204,7 +216,7 @@ class Wait:
         def nested(web_element):
             if web_element.find_element(by=se_utils.get_selector_type(child_css_selector),
                                         value=child_css_selector):
-                return True
+                return web_element
             return False
 
         webelement_ = target
