@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+
+{% if section %}
+<script>
+    $(function() {
+       $("html, body").animate({ scrollTop: $("#{{ contacts }}").offset().top }, 500);
+    });
+</script>
+{% endif %}

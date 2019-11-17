@@ -1,0 +1,173 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+/** NAV BAR */
+
+.navbar {
+    border-radius: 0;
+}
+
+.navbar-brand {
+    color: #00b386 !important;
+}
+
+.nav li {
+    border: 0 0 1px 1px solid #9fdf9f;
+}
+
+.nav li:hover{
+    background-color: #ccfff2;
+    border-bottom: 2px solid #00b386;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover{
+    color: white;
+    background-color:  #00b386;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+ }
+
+.row.content {
+    height: 450px
+}
+
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+
+#address {
+    margin: 0 20px 0 20px;
+    display: inline-block;
+}
+
+.row-phone {
+    list-style-type: none;
+}
+
+.glyphicon-phone-alt{
+    margin: auto;
+}
+
+
+/** --------------- MAIN ----------------------*/
+
+#main-container {
+    margin-top: 50px; 
+    background-color: #f8f8f8;
+}
+
+.img-icon-fit {
+    margin: auto;
+    max-height: 90px;
+}
+
+.first-row {
+    height: 380px;
+}
+
+.sec-row {
+    height: 180px;
+}
+
+.img-fit {
+    margin: auto;
+    height: 90%;
+}
+
+#team-div{
+    
+}
+
+.team-photo {
+    margin: auto;
+    height: 130px;
+    width: 130px;
+}
+
+
+#g-map{
+    width: 400px;
+    height: 350px;
+}
+
+.thumbnail{        
+    max-width: 200px; 
+    height: 200px;
+    overflow: hidden;
+}
+
+.thumbnail img{
+    max-height: 90%;
+    display: block;
+}
+
+/* --------------- footer------- */
+
+footer {
+    margin: 30px 0 0 0;
+    text-align: center;
+    background-color: #e5e5e5;
+    color: #0f0f0f;
+    padding: 25px;
+}
+
+#contact-info p{
+    padding: 15px 0 0 25px;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+    .row.content {
+        height: auto;
+    }
+}
+
+/** ---------------------temp -*/
+
+#about, #pract, #contacts {
+    min-height: 400px;
+}

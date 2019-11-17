@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    {% block page_title %}
+    {% endblock %}
+{% endblock %}
+
+{% block main_container %}
+<section id="about" class="page-header">
+    <div>
+        {% block image_content %}
+        {% endblock %}
+    </div>
+    <div class="well">
+        {% block title_content %}
+        {% endblock %}
+    </div>
+    <div>
+        {% block text_content %}
+        {% endblock %}
+    </div>
+</section>
+{% endblock %}

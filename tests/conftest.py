@@ -5,7 +5,7 @@ import copy
 import pytest
 
 from tests.webapp.setup import BROWSER_LOG, DRIVER_LOG
-from tests.webapp.app import App
+from tests.webapp.webapp import WebApp
 from tests.webapp.browser_manager import BrowserManager
 from tests.webapp.setup import BROWSER_WIDTH, BROWSER_HEIGHT
 
@@ -20,13 +20,14 @@ SCREENSHOTS_DIR = TEST_REPORTS_DIR + "/screenshots/"
 def pytest_addoption(parser):
     """Command line options for test run"""
     parser.addoption(
-        "--browser", action="store", default="chrome", help="Browser to run tests with: 'chrome' only for now"
+        "--browser", action="store", default="chrome",
+        help="Browser to run tests with: 'chrome' only for now"
     )
     parser.addoption(
         "--usegrid", action="store_true", default=False, help="If specified, test will run on grid"
     )
     parser.addoption(
-        "--grid_uri", action="store",
+        "--grid_uri", action="store", default=None,
         help="URI of grid hub"
     )
     parser.addoption(
@@ -35,9 +36,17 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture()
+def browser_mg(request):
+    browser_type = request.config.getoption("--browser")
+    use_grid = request.config.getoption("--usegrid")
+    grid_uri = request.config.getoption("--grid_uri")
+    return BrowserManager(browser_type, use_grid, grid_uri)
+
+
+@pytest.fixture()
 def app(request, browser_mg: BrowserManager):
     web_driver = browser_mg.web_driver
-    application = App(web_driver)
+    application = WebApp(web_driver)
 
     def teardown():
         """Save a screenshot and a log if test failed."""

@@ -1,0 +1,201 @@
+{% extends "layout.html" %}
+
+{% block title %}
+АО "Софяк та Партнери"
+{% endblock %}
+
+{% block main_container %}
+<div class="panel panel-default" id="initial-stats">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-stats"></span>
+        <strong> Наші досягнення за 2018 рік</strong>
+    </div>
+    <div class="panel-body row">
+        <div class="col-md-3">
+            <img alt="justice icon" class="img-responsive img-circle img-icon-fit"
+                 src="{{ url_for('static', filename='data/icons/justice_ed.png') }}"/>
+            Проведено судових справ <span class="label label-default">999</span>
+        </div>
+        <div class="col-md-3">
+            <img alt="criminal law icon" class="img-responsive img-circle img-icon-fit"
+                 src="{{ url_for('static', filename='data/icons/criminal_ed.png') }}"/>
+            Захищено від кримінального переслідування <span class="label label-default">999</span>
+        </div>
+        <div class="col-md-3">
+            <img alt="man shaking hands icon" class="img-responsive img-circle img-icon-fit"
+                 src="{{ url_for('static', filename='data/icons/legal_case.png') }}"/>
+            Складено договорів <span class="label label-default">999</span>
+        </div>
+        <div class="col-md-3">
+            <img alt="tax law icon" class="img-responsive img-circle img-icon-fit"
+                 src="{{ url_for('static', filename='data/icons/taxes_ed.png') }}"/>
+            Вирвано з пазурів податкової <span class="label label-default">999 999</span> коштів клієнтів
+        </div>
+    </div>
+</div>
+
+<!-- GRID for slide desct menu-->
+<div class="main-grid">
+     <!-- GRID for slide desct menu-->
+    <div class="main-grid">
+        <!-- 1-st ROW -->
+        <div class="row">
+            <div class="row first-row col-md-8">
+                <img class="col-md-9 slide-elem img-responsive img-rounded img-fit"
+                     src="{{ url_for('static', filename='data/pict/4005.jpg') }}"/>
+                <p class="col-md-3 slide-text">text text text text text text text text text</p>
+            </div>
+			<div class="row col-md-4 first-row">
+                <div class="row sec-row">
+                    <img class="col-md-9 slide-elem img-responsive img-rounded img-fit"
+                      src="{{ url_for('static', filename='data/pict/crew_3.jpg') }}"/>
+                    <p class="col-md-3 slide-text">second data second data second data second data</p>
+                </div>
+                <div class="row sec-row">
+                    <img class="col-md-9 slide-elem img-responsive img-rounded img-fit"
+                      src="{{ url_for('static', filename='data/pict/phrase_2.jpg') }}"/>
+                    <p class="col-md-3 slide-text">some data some data some data some data</p>
+                </div>
+			</div>
+         </div>
+        <!-- ROW 2 -->
+        <div class="row">
+            <div class="col-md-3 sec-row">
+                <img class="slide-elem img-responsive img-rounded img-fit"
+                     src="{{ url_for('static', filename='data/pict/contact.jpg') }}"/>
+                <p class="slide-text">third data</p>
+            </div>
+            <div class="col-md-3 sec-row">
+                <img class="slide-elem img-responsive img-rounded img-fit"
+                     src="{{ url_for('static', filename='data/pict/knot_crew.jpg') }}"/>
+                <p class="slide-text">forth data</p>
+            </div>
+            <div class="col-md-3 sec-row">
+                <img class="slide-elem img-responsive img-rounded img-fit"
+                     src="{{ url_for('static', filename='data/pict/news.jpg') }}"/>
+                <p class="slide-text">fifth data</p>
+            </div>
+            <div class="col-md-3 sec-row">
+                <img class="slide-elem img-responsive img-rounded img-fit"
+                     src="{{ url_for('static', filename='data/pict/the-simpsons-beatles-.jpg') }}"/>
+                <p class="slide-text">sixth data</p>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="about" class="page-header">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><strong>Наше Адвокатське об'єднання</strong></h4>
+        </div>
+        <div class="panel-body">
+            Саме розумне, саме красиве, саме професійне, саме чесне, саме скромне
+        </div>
+    </div>
+
+    <div id="team-div">
+        <div class="row">
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+            <div class="col-md-4">
+                <img class="team-photo img-circle img-responsive" alt="photo of our team"
+                     src="./data/icons/user-icon.png" />
+            </div>
+        </div>
+    </div>
+
+    <div class="well">
+        <h4>Ми захищаємо інтереси:</h4>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="thumbnail thumbnail-clients">
+                    <a href="#">
+                        <img class="img img-responsive" src="data/clients/mashzavod.png" alt="client trademark"/>
+                        <div class="caption">
+                            <p>Mashzavod</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="thumbnail thumbnail-clients">
+                    <a href="#">
+                        <img class="img img-responsive" src="data/clients/tigr2.jpg" alt="client trademark"/>
+                        <div class="caption">
+                            <p>Tigr</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="thumbnail thumbnail-clients">
+                    <a href="#">
+                        <img class="img img-responsive" src="data/clients/kolos.png" alt="client trademark"/>
+                        <div class="caption">
+                            <p>Kolos</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="thumbnail thumbnail-clients">
+                    <a href="#">
+                        <img class="img img-responsive" src="data/clients/bukmjaso.png" alt="client trademark"/>
+                        <div class="caption">
+                            <p>Miaso Bukowiny</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="contacts" class="page-header row">
+    <div class="col-md-2">
+    </div>
+    <div id="contact-info" class="col-md-3">
+        <p>Ми Вас чекаємо за адресою: <br /><small>м.Чернівці, вул.Прутська, 16</small></p>
+        <p>Пишіть нам листи на поштову скриньку: <br /><small>58002, м.Чернівці, вул.Поштова, 6, А/С № 1613</small></p>
+        <p>Дзвоніть нам за телефонами: <br /><small>(0372) 594 134 / 594 135</small></p>
+    </div>
+    <div id="g-map" class="col-md-7">
+        <img src="{{ url_for('static', filename='data/map.png') }}">
+    </div>
+</section>
+
+{% endblock %}
+

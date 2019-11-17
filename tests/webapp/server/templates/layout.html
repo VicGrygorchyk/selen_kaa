@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="uk">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <!--or windows-1280-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/style/style.css">
+    <meta content="initial-scale=1, width=device-width" name="viewport"/>
+    <!-- documentation at http://getbootstrap.com/, alternative themes at https://www.bootstrapcdn.com/bootswatch/ -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./static/scripts/script.js"></script>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+<div id="wrapper">
+    <header id="head">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div id="nav-container" class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#HeaderNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('index') }}">AO Sofyak & Partners</a>
+                </div>
+                <div id="HeaderNavbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+
+                        <li><a href="{{ url_for('index') }}">Коротко про нас</a></li>
+                        <li>
+                            <div class="dropdown">
+                                <a class="btn btn-link dropbtn" href="#">Наші послуги</a>
+                                <ul class="dropdown-content">
+                                     <li class="dropdown-item"><a href="{{ url_for('law') }}">Послуги адвоката</a></li>
+                                    <li class="dropdown-item"><a href="{{ url_for('school') }}">Школа юридичної майстерності</a></li>
+                                     <li class="dropdown-item"><a href="{{ url_for('mediation') }}">Медіація</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!--<li class="active dropdown show">-->
+                            <!--<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"-->
+                               <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Наші послуги</a>-->
+                            <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+                                <!--<li class="dropdown-item"><a href="{{ url_for('law') }}">Послуги адвоката</a></li>-->
+                                <!--<li class="dropdown-item"><a href="{{ url_for('school') }}">Школа юридичної майстерності</a></li>-->
+                                <!--<li class="dropdown-item"><a href="{{ url_for('mediation') }}">Медіація</a></li>-->
+                            <!--</ul>-->
+
+                        <!--</li>-->
+                        <li><a href="{{ url_for('contacts') }}">Наші контакти</a></li>
+                    </ul>
+                    <p id="address" class="hidden-xs hidden-sm navbar-text navbar-right">
+                        <span class="glyphicon glyphicon-envelope"></span> м.Чернівці, вул.Прутська, 16 <br />
+                        <span class="glyphicon glyphicon-phone-alt"></span> (037) 594 134 / 594 135</p>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <main id="center-content">
+        <div id="main-container" class="container">
+            {% block main_container %}{% endblock %}
+        </div>
+        <!-- end of main container -->
+    </main>
+    <footer class="container-fluid">
+        <p>Адвокатське об'єднання "Софяк та Партнери"</p>
+    </footer>
+</div>
+</body>
+</html>
