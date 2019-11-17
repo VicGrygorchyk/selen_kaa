@@ -39,7 +39,6 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Testing"
     ],
-    test_suite="tests",
     tests_require=get_test_requirements(),
     python_requires='>=3.6',
 )
