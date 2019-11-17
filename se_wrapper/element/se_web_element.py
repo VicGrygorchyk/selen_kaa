@@ -35,9 +35,13 @@ class SeWebElement(SeElementInterface):
     @property
     def web_element(self):
         """Get reference to Selenium WebElement."""
+        return self.get_web_element_by_timeout(self.timeout)
+
+
+    def get_web_element_by_timeout(self, timeout):
         if self._element is None:
             try:
-                return se_utils.find_element_by_css(self._webdriver, self.selector, self.timeout)
+                return se_utils.find_element_by_css(self._webdriver, self.selector, timeout)
             except NoSuchElementException as exc:
                 raise NoSuchElementException(f"Web Element with selector {self.selector} has not been found."
                                              f"\n{exc.msg}")

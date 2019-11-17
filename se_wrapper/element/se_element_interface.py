@@ -14,6 +14,9 @@ class SeElementInterface(ABC):
     def web_element(self, element):
         raise NotImplementedError()
 
+    def get_web_element_by_timeout(self, timeout):
+        raise NotImplementedError()
+
     @property
     def selector(self):
         raise NotImplementedError()

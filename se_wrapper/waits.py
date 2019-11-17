@@ -31,6 +31,7 @@ class Wait:
     def element_to_be_visible(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
 
         def wrapped_visible():
+            target.get_web_element_by_timeout(timeout)
             return target if target.is_displayed() else False
 
         return self._switch_on_element_type(
@@ -51,6 +52,8 @@ class Wait:
 
         def wrapped_webelement_disappears():
             try:
+                # init web_element within wait's timeout, not web_element's
+                target.get_web_element_by_timeout(timeout)
                 if target.web_element.is_displayed():
                     return False
                 # return True if element is not stale, but is not displayed
@@ -76,6 +79,7 @@ class Wait:
 
         def no_wrapped_webelement_in_dom():
             try:
+                target.get_web_element_by_timeout(timeout)
                 if target.web_element.is_enabled():
                     return False
                 # it might be unreached condition, but keep it for code consistency
@@ -101,6 +105,7 @@ class Wait:
     def element_to_contain_text(self, target: ElementType, text: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
 
         def has_text_in_target():
+            target.get_web_element_by_timeout(timeout)
             return target if text is target else False
 
         err_msg = f"TimeoutException while waited {timeout} for the element to have text {text}. " \
@@ -129,7 +134,8 @@ class Wait:
         elif isinstance(target, WebElement):
             element = target
         else:
-            element = target.web_element
+            target.get_web_element_by_timeout(timeout)
+            element = target
         text_ = None
 
         def get_text_in_element():
@@ -162,7 +168,8 @@ class Wait:
         elif isinstance(target, WebElement):
             element = target
         else:
-            element = target.web_element
+            target.get_web_element_by_timeout(timeout)
+            element = target
         class_not_expected = None
 
         def check_class_in_element():
@@ -214,22 +221,29 @@ class Wait:
         """Wait for a web element to have another web element as a child element."""
 
         def nested(web_element):
-            if web_element.find_element(by=se_utils.get_selector_type(child_css_selector),
-                                        value=child_css_selector):
-                return web_element
-            return False
+            try:
+                return web_element.find_element(by=se_utils.get_selector_type(child_css_selector),
+                                                value=child_css_selector)
+            except NoSuchElementException:
+                return False
 
         webelement_ = target
         if isinstance(target, str):
             self.element_be_in_dom(target)
             webelement_ = self._webdriver.find_element(by=se_utils.get_selector_type(target),
                                                        value=target)
-        return self.wait_fluently(lambda func: nested(webelement_),
+        elif isinstance(target, WebElement):
+            webelement_ = target
+        else:
+            target.get_web_element_by_timeout(timeout)
+            webelement_ = target
+
+        return self.wait_fluently(lambda: nested(webelement_),
                                   timeout,
                                   f"TimeoutException while waiting for the element "
                                   f"to have a child {child_css_selector}")
 
-    def element_to_be_in_viewport(self, element, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def element_to_be_in_viewport(self, target, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait until element inside viewport's coordinates."""
         find_viewport_pos_script = """
               var height = document.documentElement.clientHeight;
@@ -241,13 +255,23 @@ class Wait:
         height = rect_[0]
         width = rect_[1]
 
+        if isinstance(target, str):
+            self.element_be_in_dom(target)
+            webelement_ = self._webdriver.find_element(by=se_utils.get_selector_type(target),
+                                                       value=target)
+        elif isinstance(target, WebElement):
+            webelement_ = target
+        else:
+            target.get_web_element_by_timeout(timeout)
+            webelement_ = target
+
         def get_element_pos():
 
-            nonlocal height, width
-            pos_x = element.location.get('x')
-            pos_y = element.location.get('y')
+            nonlocal height, width, webelement_
+            pos_x = webelement_.location.get('x')
+            pos_y = webelement_.location.get('y')
             if all((pos_x < width, pos_y < height)):
-                return element
+                return webelement_
             return None
 
         return self.wait_fluently(get_element_pos,
