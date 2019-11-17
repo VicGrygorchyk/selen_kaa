@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.options import DesiredCapabilities
 
 from tests.webapp.driver_wrapper import DriverWrapper
-from tests.setup import LOGS_SETUP, BROWSER_WIDTH, BROWSER_HEIGHT
+from tests.webapp.setup import LOGS_SETUP, BROWSER_WIDTH, BROWSER_HEIGHT
 
 
 class BrowserManager:

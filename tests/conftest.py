@@ -4,10 +4,10 @@ import copy
 
 import pytest
 
-from tests.setup import BROWSER_LOG, DRIVER_LOG
+from tests.webapp.setup import BROWSER_LOG, DRIVER_LOG
 from tests.webapp.app import App
 from tests.webapp.browser_manager import BrowserManager
-from tests.setup import BROWSER_WIDTH, BROWSER_HEIGHT
+from tests.webapp.setup import BROWSER_WIDTH, BROWSER_HEIGHT
 
 
 TEST_REPORTS_DIR = "./test_reports"
