@@ -7,12 +7,6 @@ def get_requirements():
         return [line for line in reqfile.read().split("\n") if not line.startswith(('#', '-'))]
 
 
-def get_test_requirements():
-    """Reads the installation requirements for tests"""
-    with open("test-requirements.pip") as test_reqfile:
-        return [line for line in test_reqfile.read().split("\n") if not line.startswith(('#', '-'))]
-
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -39,6 +33,5 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Testing"
     ],
-    tests_require=get_test_requirements(),
     python_requires='>=3.6',
 )
