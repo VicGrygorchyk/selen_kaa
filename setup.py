@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="selen-kaa",
-    version="0.0.1",
+    version="0.0.2",
     author="Viktor Grygorchuk",
     author_email="vvgrygorchuk@gmail.com",
     keywords=['Selenium', 'Test Automation'],
