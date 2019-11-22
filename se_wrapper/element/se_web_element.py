@@ -57,7 +57,7 @@ class SeWebElement(SeElementInterface):
         return self._selector
 
     @property
-    def expect(self):
+    def expect(self) -> Expectations:
         """Expect returns True if the condition is positive till timeout is reached,
         after timeout it returns False.
         """
@@ -66,7 +66,7 @@ class SeWebElement(SeElementInterface):
         return self._expect
 
     @property
-    def should(self):
+    def should(self) -> ElementWaits:
         """Should returns True if the condition is positive till timeout is reached,
         otherwise it throws TimeoutException.
         """
