@@ -19,6 +19,7 @@ from se_wrapper.browser_driver import BrowserDriver
 
 browser = BrowserDriver(webdriver.Chrome())
 browser.get("https://www.seleniumhq.org/")
+# any methods from the WebDriver works!
 ```
 - Besides standard Selenium, `selen-kaa` introduces more convenient way to 
 interact with a web page and web elements through `init_web_element()`
@@ -52,12 +53,12 @@ element1.should.be_visible(timeout=4) # wait 4 seconds for element to be visible
 
 - `selen-kaa` is basically about next logic:
 1) It has `BrowserDriver`, which allows to use all standard Selenium methods 
-and attributes to the WebDriver, but has additional logic for 
-`init_web_element()` and `init_web_element()`.
+and attributes of the WebDriver, but has additional logic for 
+`init_web_element()` and `init_web_elements()`.
 2) `init_web_element` returns `SeWebElement` object, which has attributes 
 of standard WebElement but with additional logic of lazy initialization,
  custom waits and conditions.
-3) `init_web_element()` returns `SeElementsArray` - a collection of 
+3) `init_web_elements()` returns `SeElementsArray` - a collection of 
 `SeWebElement` objects with the same lazy initialization logic.
 
 - This library is highly customisable for extensions:
