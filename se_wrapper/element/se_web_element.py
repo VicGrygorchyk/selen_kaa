@@ -1,14 +1,11 @@
-import time
-
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.common.exceptions import NoSuchElementException, WebDriverException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.remote.webelement import WebElement
 
 from se_wrapper.utils import custom_types
 from se_wrapper.utils import se_utils
 from se_wrapper.element.element_waits import ElementWaits
 from se_wrapper.element.se_element_interface import SeElementInterface
-from se_wrapper.errors import ElementNotClickableError
 from se_wrapper.element.expectations import Expectations
 
 
@@ -98,24 +95,6 @@ class SeWebElement(SeElementInterface):
         """Click web_element two times."""
         self.web_element.click()
         self.web_element.click()
-
-    def click(self, timeout: TimeoutType = DEFAULT_TIMEOUT):
-        """Click element, throws ElementNotClickableException if element can't handle click.
-        Wait with timeout, if click is not possible.
-        """
-        start_time = time.time()
-        while True:
-            try:
-                self.web_element.click()
-                break
-            except WebDriverException as exc:
-                if ElementNotClickableError.can_handle_exception(exc):
-                    if time.time() - start_time > timeout:
-                        error = f"Element location is {self.web_element.location}. {exc.msg}"
-                        raise ElementNotClickableError(msg=error)
-                    continue
-                else:
-                    raise WebDriverException(msg=exc.msg)
 
     def get_class(self):
         """Get class of element."""
