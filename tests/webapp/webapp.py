@@ -1,3 +1,5 @@
+from tests.webapp.pages.index_page import IndexPage
+from tests.webapp.setup import URL
 
 
 class WebApp:
@@ -5,5 +7,6 @@ class WebApp:
     def __init__(self, web_driver):
         self.web_driver = web_driver
 
-    def print(self):
-        print("Hello")
+    def goto_index_page(self):
+        self.web_driver.get(URL)
+        return IndexPage(self.web_driver)
