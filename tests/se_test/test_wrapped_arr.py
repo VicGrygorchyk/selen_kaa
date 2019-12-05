@@ -40,5 +40,11 @@ def test_elem_in_arr(app):
     fst_elem = index_page.the_same_text.pop()
     assert type(fst_elem) is WebElementWrapper
     assert isinstance(fst_elem, SeWebElement)
-    for elem in index_page.the_same_text:
+    for index, elem in enumerate(index_page.the_same_text):
         assert elem.is_displayed()
+        assert str(index) in elem.text
+    assert all(("Test the same" in elem.text for elem in index_page.the_same_text))
+    # assert elements are different
+    assert index_page.the_same_text[0] != index_page.the_same_text[1]
+    assert index_page.the_same_text[2] != index_page.the_same_text[3]
+    assert index_page.the_same_text[4] != index_page.the_same_text[5]
