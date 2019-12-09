@@ -14,6 +14,7 @@ from se_wrapper.utils import custom_types
 
 TimeoutType = custom_types.TimeoutType
 ElementType = custom_types.ElementType
+TIMEOUT_BASE_ERR_MSG = "TimeoutException while waited {} second(s) for the element '{}' to {}."
 
 
 class Wait:
@@ -40,7 +41,7 @@ class Wait:
             web_element_type=lambda: self._wait_until(ec.visibility_of(target), timeout),
             wrapped_element_type=lambda: self.wait_fluently(
                 wrapped_visible, timeout,
-                f"TimeoutException while waited {timeout} for the element '{target.selector}' to be visible."
+                TIMEOUT_BASE_ERR_MSG.format(timeout, target.selector, "be visible")
             )
         )
 
@@ -56,7 +57,7 @@ class Wait:
                 target.get_web_element_by_timeout(timeout)
                 if target.web_element.is_displayed():
                     return False
-                # return True if element is not stale, but is not displayed
+                # return True if element is not stale and is not displayed
                 return target
             except (NoSuchElementException, StaleElementReferenceException):
                 return target
@@ -68,13 +69,13 @@ class Wait:
             wrapped_element_type=lambda: self.wait_fluently(
                 wrapped_webelement_disappears,
                 timeout,
-                f"TimeoutException while waited {timeout} for the element '{target.selector}' to disappear."
+                TIMEOUT_BASE_ERR_MSG.format(timeout, target.selector, "disappear")
             )
         )
 
     def element_not_present(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """True if there is no NoSuchElementException or StaleElementReferenceException.
-
+        Element should be neither visible, nor enabled, nor be present in DOM.
         """
 
         def no_wrapped_webelement_in_dom():
@@ -95,8 +96,7 @@ class Wait:
                 wrapped_element_type=lambda: self.wait_fluently(
                     no_wrapped_webelement_in_dom,
                     timeout,
-                    f"TimeoutException while waited {timeout} for the element '{target.selector}' "
-                    f"to not be present in DOM."
+                    TIMEOUT_BASE_ERR_MSG.format(timeout, target.selector, "not be present in DOM")
                 )
             )
         except (NoSuchElementException, StaleElementReferenceException):
