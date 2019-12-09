@@ -47,4 +47,19 @@ $(document).ready(function () {
             scrollTop: $($.attr(this, 'href')).offset().top - headerHeight
         }, 700);
     });
+
+
+    $(document).on('click', "#click-to-make-el-visible", function (event) {
+        setTimeout(function() {
+            $("#five-sec-visible").show(1);
+        }, 5000);
+    });
+
+    $(document).on('click', "#click-to-make-el-invisible", function (event) {
+        setTimeout(function() {
+            $("#five-sec-visible").hide(1);
+        }, 5000);
+    });
+
+
 });

@@ -166,6 +166,10 @@ footer {
     }
 }
 
+#five-sec-visible {
+    display: none;
+}
+
 /** ---------------------temp -*/
 
 #about, #pract, #contacts {
