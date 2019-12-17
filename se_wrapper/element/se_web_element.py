@@ -34,7 +34,6 @@ class SeWebElement(SeElementInterface):
         """Get reference to Selenium WebElement."""
         return self.get_web_element_by_timeout(self.timeout)
 
-
     def get_web_element_by_timeout(self, timeout):
         if self._element is None:
             try:
@@ -91,11 +90,12 @@ class SeWebElement(SeElementInterface):
         self.web_element.clear()
         self.web_element.send_keys(input_val)
 
-    def double_click(self):
-        """Click web_element two times."""
-        self.web_element.click()
-        self.web_element.click()
-
     def get_class(self):
         """Get class of element."""
         return self.web_element.get_attribute("class")
+
+    def __repr__(self):
+        return f"{self.web_element} with selector {self.selector}."
+
+    def __eq__(self, other):
+        return self.web_element == other.web_element
