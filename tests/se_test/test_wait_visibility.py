@@ -68,4 +68,3 @@ def test_timeout_duration_on_visibility(app):
     assert not index_page.test_div.expect.be_visible(timeout=5)
     after_6_sec_time = time.time()
     assert all((after_6_sec_time - start_t2 >= 5, after_6_sec_time - start_t2 <= 6))
-
