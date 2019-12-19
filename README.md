@@ -1,7 +1,7 @@
 A lightweight wrapper around Selenium Python.<br/>
 It's a simple extension to standard Selenium.
-The Philosophy is "__don't reinvent a wheel and
-use standard Selenium, when it works and fix it, 
+The Philosophy is "__don't reinvent a wheel,
+use standard Selenium, when it works, and use additional methods, 
 when Selenium annoys, mainly with waits and
  NoSuchElement exception__".
 
@@ -20,11 +20,13 @@ from se_wrapper.browser_driver import BrowserDriver
 browser = BrowserDriver(webdriver.Chrome())
 browser.get("https://www.seleniumhq.org/")
 # any methods from the WebDriver works!
+element = browser.find_element_by_css(".test-class")
 ```
-- Besides standard Selenium, `selen-kaa` introduces more convenient way to 
+Besides standard Selenium, `selen-kaa` introduces more convenient way to 
 interact with a web page and web elements through `init_web_element()`
-and `init_web_elements()`: 
-you can freely create the web element in `__init__()`, as the WebDriver would search this element 
+and `init_web_elements()`:<br/>
+- you can freely create the web element in `__init__()`, as the WebDriver 
+would search this element 
 only at the time of interaction with it:
 ```
 browser = BrowserDriver(webdriver.Chrome())
@@ -38,28 +40,24 @@ class MyPage:
 page = MyPage()
 # even if `self.element1` has not been rendered yet on the web page, 
 # it's safe, you would have no NoSuchElementException
-page.element1.click() # only here the WebDriver would `find_element`
+browser.get("www.some.com")
+page.element1.click() # WebDriver would `find_element` and click it only on this step
 ```
-`init_web_element()` returns a wrapper around Selenium
-WebElement, what has all standard WebElement's methods, but
-have two main advantages:
-1) Wrapped WebElement is going to be searched only when
-any method is called on it (as shown above).
-2) It has its own waits methods:
-```
-element1 = browser.init_web_element("#test")
-element1.should.be_visible(timeout=4) # wait 4 seconds for element to be visible
-```
+<br/>
 
-- `selen-kaa` is basically about next logic:
-1) It has `BrowserDriver`, which allows to use all standard Selenium methods 
-and attributes of the WebDriver, but has additional logic for 
-`init_web_element()` and `init_web_elements()`.
-2) `init_web_element` returns `SeWebElement` object, which has attributes 
+`init_web_element()` returns `SeWebElement` object, which has attributes 
 of standard WebElement but with additional logic of lazy initialization,
  custom waits and conditions.
-3) `init_web_elements()` returns `SeElementsArray` - a collection of 
+`init_web_elements()` returns `SeElementsArray` - a collection of 
 `SeWebElement` objects with the same lazy initialization logic.
+
+```
+element1 = browser.init_web_element("#test")
+element1.should.be_visible(timeout=4) # wait 4 seconds until element becomes visible
+
+elements = browser.init_web_elements(".test-class")
+elements[0].should.have_exact_text(text="first element", timeout=4)
+```
 
 - This library is highly customisable for extensions:
 ```
@@ -83,5 +81,6 @@ class MyDriverWrapper(BrowserDriver):
         self.config = Config()
 ```
 So, you can add your own methods to `selen-kaa` main classes.
+
 
 ###  
