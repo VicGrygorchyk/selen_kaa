@@ -3,6 +3,7 @@
 .vscode
 
 *venv*
+*test_reports*
 
 # git files
 *.orig

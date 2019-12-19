@@ -89,18 +89,29 @@ Selen-kaa
             <h4><strong>Selen-Kaa</strong></h4>
         </div>
         <div class="panel-body">
-            The best
+            Some text
         </div>
+            {% for i in range(7) %}
+                <span class="well the-same-class">Test the same {{ i }}</span>
+            {% endfor %}
     </div>
 
     <div id="team-div">
         <div class="row">
             <div class="col-md-4">
+                test
             </div>
             <div class="col-md-4">
+                test 2
             </div>
             <div class="col-md-4">
+                test 3
             </div>
+        </div>
+        <div class="row">
+            <button id="click-to-make-el-visible" class="btn btn-primary">Show the div in 5 second</button>
+            <button id="click-to-make-el-invisible" class="btn btn-primary">Hide the div in 5 second</button>
+            <div id="five-sec-visible" style="background: yellow">I am visible in 5 second.</div>
         </div>
     </div>
 </section>

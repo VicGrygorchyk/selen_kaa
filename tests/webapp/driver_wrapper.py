@@ -37,8 +37,8 @@ class WebElementWrapper(SeWebElement):
 
 class WrappedElementsArray(SeElementsArray):
 
-    def __init__(self, webdriver, css_selector, timeout):
-        super().__init__(webdriver, css_selector, WebElementWrapper, timeout)
+    def __init__(self, webdriver, css_selector, type_web_element, timeout):
+        super().__init__(webdriver, css_selector, type_web_element, timeout)
 
 
 class ElementNotClickableError(WebDriverException):
