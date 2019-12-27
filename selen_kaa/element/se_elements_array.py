@@ -1,6 +1,8 @@
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
-from selen_kaa.utils import se_utils
+from selen_kaa.utils.se_utils import get_selector_type
+from selenium.webdriver.support.expected_conditions import presence_of_all_elements_located
 from selen_kaa.utils import custom_types
 from selen_kaa.element.se_web_element import SeWebElement
 
@@ -25,9 +27,9 @@ class SeElementsArray:
     @property
     def _lazy_array(self):
         if not self._elements_array:
-            elements_ = se_utils.find_all_elements_by_css(self._webdriver,
-                                                          self._css_selector,
-                                                          self._timeout)
+            elements_ = WebDriverWait(self._webdriver, self._timeout).until(
+                presence_of_all_elements_located((get_selector_type(self.selector), self.selector))
+            )
             for elem in elements_:
                 wrapped_elem = SeWebElement(self._webdriver, self._css_selector, self._timeout)
                 wrapped_elem.web_element = elem

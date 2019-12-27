@@ -1,9 +1,11 @@
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 from selen_kaa.utils import custom_types
-from selen_kaa.utils import se_utils
+from selen_kaa.utils.se_utils import get_selector_type
 from selen_kaa.element.element_waits import ElementWaits
 from selen_kaa.element.se_element_interface import SeElementInterface
 from selen_kaa.element.expectations import Expectations
@@ -37,8 +39,10 @@ class SeWebElement(SeElementInterface):
     def get_web_element_by_timeout(self, timeout):
         if self._element is None:
             try:
-                return se_utils.find_element_by_css(self._webdriver, self.selector, timeout)
-            except NoSuchElementException as exc:
+                return WebDriverWait(self._webdriver, timeout).until(
+                    presence_of_element_located((get_selector_type(self.selector), self.selector))
+                )
+            except TimeoutException as exc:
                 raise NoSuchElementException(f"Web Element with selector {self.selector} has not been found."
                                              f"\n{exc.msg}")
         return self._element
