@@ -6,6 +6,7 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver import ActionChains
 
+from selen_kaa.global_config import DEFAULT_TIMEOUT
 from selen_kaa.utils import custom_types
 from selen_kaa.element.se_web_element import SeWebElement
 from selen_kaa.element.se_elements_array import SeElementsArray
@@ -54,7 +55,7 @@ class SeWebDriver:
         if selector is None:
             raise Exception("Selector should be not empty.")
 
-        timeout_ = self.config.DEFAULT_TIMEOUT
+        timeout_ = DEFAULT_TIMEOUT
         if timeout or timeout == 0:
             timeout_ = timeout
         return SeWebElement(self.webdriver, selector, timeout_)
@@ -65,7 +66,7 @@ class SeWebDriver:
         with any of the elements.
         :return: List of WrappedWebElements
         """
-        timeout_ = self.config.DEFAULT_TIMEOUT
+        timeout_ = DEFAULT_TIMEOUT
         if timeout or timeout == 0:
             timeout_ = timeout
         return SeElementsArray(self.webdriver, selector, timeout_)

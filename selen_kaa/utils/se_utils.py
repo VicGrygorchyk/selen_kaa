@@ -27,39 +27,3 @@ def get_selector_type(selector):
     """
     pattern_xpath = r"^(./)|^/"
     return By.XPATH if match(pattern_xpath, selector) else By.CSS_SELECTOR
-
-
-def find_element_by_css(webdriver, selector: str, timeout: TimeoutType) -> WebElement:
-    """ Universal method to look for the web element by provided selector.
-    Checks if selector is css or xpath, then waits for element.
-    If element not present in DOM raises NoSuchElementException,
-    if wait reached timeout, raises TimeOutException.
-    :param webdriver: instance of WebDriver
-    :param selector: str as css selector or xpath
-    :param timeout: int
-    :return: WebElement
-
-    """
-    try:
-        return wait_handler.element_be_in_dom(selector, timeout=timeout)
-    except TimeoutException:
-        raise NoSuchElementException(msg=f"Waited {timeout} seconds. Can't find element with locator='{selector}'")
-
-
-def find_all_elements_by_css(webdriver, selector: str, timeout: TimeoutType) -> List[WebElement]:
-    """ Universal method to look for the web elements by provided selector.
-    Checks if selector is css or xpath, then wait for elements.
-    If no element present, returns empty list
-    :param webdriver: instance of WebDriver
-    :param selector: str
-    :param timeout: int
-    :return: list[type: WebElement]
-
-    """
-    result = []
-    try:
-        if wait_handler.element_be_in_dom(selector, timeout=timeout):
-            result = webdriver.find_elements(by=get_selector_type(selector), value=selector)
-    except TimeoutException:
-        pass
-    return result
