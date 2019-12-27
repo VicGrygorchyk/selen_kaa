@@ -8,9 +8,9 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 
-from se_wrapper.utils import se_utils
-from se_wrapper.element.se_element_interface import SeElementInterface
-from se_wrapper.utils import custom_types
+from selen_kaa.utils import se_utils
+from selen_kaa.element.se_element_interface import SeElementInterface
+from selen_kaa.utils import custom_types
 
 
 TimeoutType = custom_types.TimeoutType

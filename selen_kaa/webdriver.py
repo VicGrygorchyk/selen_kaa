@@ -1,4 +1,4 @@
-""" Wrapper around Selenium WebDriver.
+"""Wrapper around Selenium WebDriver.
  Calls all methods on self._webdriver.
  Added some method for usability.
 
@@ -6,19 +6,18 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver import ActionChains
 
-from se_wrapper.web_driver_config import WebDriverConfig
-from se_wrapper.utils import custom_types
+from selen_kaa.utils import custom_types
+from selen_kaa.element.se_web_element import SeWebElement
+from selen_kaa.element.se_elements_array import SeElementsArray
 
 
 TimeoutType = custom_types.TimeoutType
 
 
-class BrowserDriver:
+class SeWebDriver:
 
     def __init__(self, webdriver: WebDriver):
         self.webdriver: WebDriver = webdriver
-        self.config = WebDriverConfig()
-
 
     def __getattr__(self, attr):
         """Calls method or properties on self._webdriver.
@@ -45,7 +44,7 @@ class BrowserDriver:
     def action_chains(self):
         return ActionChains(self.webdriver)
 
-    def init_web_element(self, selector: str, timeout: TimeoutType = None):
+    def init_web_element(self, selector: str, timeout: TimeoutType = None) -> SeWebElement:
         """Init a new WrappedWebElement.
         Lazy initialization. Element would be called on the time of first interaction.
         :param selector: str as css selector or xpath
@@ -58,9 +57,9 @@ class BrowserDriver:
         timeout_ = self.config.DEFAULT_TIMEOUT
         if timeout or timeout == 0:
             timeout_ = timeout
-        return self.config.WrappedElementType(self.webdriver, selector, timeout_)
+        return SeWebElement(self.webdriver, selector, timeout_)
 
-    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None):
+    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None) -> SeElementsArray:
         """Init a list with references to WrappedWebElement.
         Lazy initialization. All elements would be called on the time of first interaction
         with any of the elements.
@@ -69,5 +68,4 @@ class BrowserDriver:
         timeout_ = self.config.DEFAULT_TIMEOUT
         if timeout or timeout == 0:
             timeout_ = timeout
-        WrappedElementType = self.config.WrappedElementType
-        return self.config.WrappedElementArrayType(self.webdriver, selector, WrappedElementType, timeout_)
+        return SeElementsArray(self.webdriver, selector, timeout_)

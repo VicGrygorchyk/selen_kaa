@@ -1,7 +1,8 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from se_wrapper.utils import se_utils
-from se_wrapper.utils import custom_types
+from selen_kaa.utils import se_utils
+from selen_kaa.utils import custom_types
+from selen_kaa.element.se_web_element import SeWebElement
 
 
 TimeoutType = custom_types.TimeoutType
@@ -15,13 +16,11 @@ class SeElementsArray:
 
     DEFAULT_TIMEOUT = 4
 
-    def __init__(self, webdriver: WebDriver, css_selector: str,
-                 WrappedElementType: type, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def __init__(self, webdriver: WebDriver, css_selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         self._webdriver = webdriver
         self._css_selector = css_selector
         self._timeout = timeout
         self._elements_array = []
-        self._WrappedElementType = WrappedElementType
 
     @property
     def _lazy_array(self):
@@ -30,9 +29,7 @@ class SeElementsArray:
                                                           self._css_selector,
                                                           self._timeout)
             for elem in elements_:
-                wrapped_elem = self._WrappedElementType(self._webdriver,
-                                                        self._css_selector,
-                                                        self._timeout)
+                wrapped_elem = SeWebElement(self._webdriver, self._css_selector, self._timeout)
                 wrapped_elem.web_element = elem
                 self._elements_array.append(wrapped_elem)
 

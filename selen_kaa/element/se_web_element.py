@@ -2,11 +2,11 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.remote.webelement import WebElement
 
-from se_wrapper.utils import custom_types
-from se_wrapper.utils import se_utils
-from se_wrapper.element.element_waits import ElementWaits
-from se_wrapper.element.se_element_interface import SeElementInterface
-from se_wrapper.element.expectations import Expectations
+from selen_kaa.utils import custom_types
+from selen_kaa.utils import se_utils
+from selen_kaa.element.element_waits import ElementWaits
+from selen_kaa.element.se_element_interface import SeElementInterface
+from selen_kaa.element.expectations import Expectations
 
 
 TimeoutType = custom_types.TimeoutType
