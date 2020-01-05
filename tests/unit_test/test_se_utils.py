@@ -2,7 +2,7 @@ import pytest
 from selenium.webdriver.common.by import By
 
 
-from se_wrapper.utils import se_utils
+from selen_kaa.utils import se_utils
 
 
 @pytest.mark.parametrize("selector", ("div", ".class", "div[class='test']",

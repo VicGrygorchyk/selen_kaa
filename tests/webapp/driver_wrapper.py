@@ -5,40 +5,33 @@ import logging
 
 from selenium.common.exceptions import WebDriverException, UnexpectedAlertPresentException
 
-from se_wrapper.browser_driver import BrowserDriver
-from se_wrapper.element.se_web_element import SeWebElement
-from se_wrapper.element.se_elements_array import SeElementsArray
-from se_wrapper.web_driver_config import WebDriverConfig
-from se_wrapper.utils import se_utils
+from selen_kaa.webdriver import SeWebDriver
+from selen_kaa.component.component import Component
+from selen_kaa.component.components_array import ComponentsArray
+from selen_kaa.utils import se_utils
 
 
 DEFAULT_TIMEOUT = 7
 TimeoutType = se_utils.TimeoutType
 
 
-class WebElementWrapper(SeWebElement):
+class WebElementWrapper(Component):
 
-    def __init__(self, webdriver, selector, timeout=DEFAULT_TIMEOUT):
-        super().__init__(webdriver, selector, timeout)
+    def __init__(self, source):
+        super().__init__(source)
 
     def should_be_unclickable(self, timeout: TimeoutType = 0.1):
-        """ Tries to click element to check if it clickable.
-        Unclickable element should throw ElementNotClickableException.
-        As this method tries to click an element, it's safe to use only on expected unclickable, otherwise,
-        an element would trigger onclick event.
-        :return: if element can handle click. :type: bool
-        """
         try:
-            self.click(timeout)
+            self.source.click(timeout)
         except ElementNotClickableError:
             return True
         return False
 
 
-class WrappedElementsArray(SeElementsArray):
+class WrappedElementsArray(ComponentsArray):
 
-    def __init__(self, webdriver, css_selector, type_web_element, timeout):
-        super().__init__(webdriver, css_selector, type_web_element, timeout)
+    def __init__(self, source_array):
+        super().__init__(source_array)
 
 
 class ElementNotClickableError(WebDriverException):
@@ -50,18 +43,10 @@ class ElementNotClickableError(WebDriverException):
         return pattern.search(error.msg) is not None
 
 
-class Config(WebDriverConfig):
-
-    WrappedElementType: type = WebElementWrapper
-    WrappedElementArrayType: type = WrappedElementsArray
-    DEFAULT_TIMEOUT = DEFAULT_TIMEOUT
-
-
-class DriverWrapper(BrowserDriver):
+class DriverWrapper(SeWebDriver):
 
     def __init__(self, webdriver):
         super().__init__(webdriver)
-        self.config = Config()
 
     @staticmethod
     def be_idle_for(sleeptime):
@@ -75,3 +60,9 @@ class DriverWrapper(BrowserDriver):
             return self.webdriver.get_screenshot_as_png()
         except (WebDriverException, UnexpectedAlertPresentException):
             logging.error("Unable to get a screenshot from WebDriver.")
+
+    def init_web_element(self, selector: str, timeout: TimeoutType = None):
+        return WebElementWrapper(super().init_web_element(selector, timeout))
+
+    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None):
+        return super().init_all_web_elements(selector, timeout)

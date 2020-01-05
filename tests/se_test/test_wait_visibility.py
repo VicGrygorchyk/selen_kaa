@@ -18,6 +18,15 @@ def test_should_invisibility(app):
     assert index_page.test_div.should.be_invisible(timeout=TIMEOUT_6_SEC)
 
 
+def test_should_visible_web_element(app):
+    index_page = app.goto_index_page()
+    assert app.wait.element_to_be_invisible(index_page.test_div.web_element, timeout=TIMEOUT_6_SEC)
+    index_page.btn_show_div.click()
+    assert app.wait.element_to_be_visible(index_page.test_div.web_element, timeout=TIMEOUT_6_SEC)
+    index_page.btn_hide_div.click()
+    assert app.wait.element_to_be_invisible(index_page.test_div.web_element, timeout=TIMEOUT_6_SEC)
+
+
 def test_expect_invisibility(app):
     index_page = app.goto_index_page()
     assert index_page.test_div.expect.be_invisible(timeout=TIMEOUT_6_SEC)
