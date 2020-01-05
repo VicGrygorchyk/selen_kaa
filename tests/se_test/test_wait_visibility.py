@@ -19,12 +19,23 @@ def test_should_invisibility(app):
 
 
 def test_should_visible_web_element(app):
+    """Verify be visible and be invisible works for Selenium WebElement."""
     index_page = app.goto_index_page()
     assert app.wait.element_to_be_invisible(index_page.test_div.web_element, timeout=TIMEOUT_6_SEC)
     index_page.btn_show_div.click()
     assert app.wait.element_to_be_visible(index_page.test_div.web_element, timeout=TIMEOUT_6_SEC)
     index_page.btn_hide_div.click()
     assert app.wait.element_to_be_invisible(index_page.test_div.web_element, timeout=TIMEOUT_6_SEC)
+
+
+def test_should_visible_by_selector(app):
+    """Verify be visible and be invisible works when to pass css selector to method."""
+    index_page = app.goto_index_page()
+    assert app.wait.element_to_be_invisible(index_page.test_div.selector, timeout=TIMEOUT_6_SEC)
+    index_page.btn_show_div.click()
+    assert app.wait.element_to_be_visible(index_page.test_div.selector, timeout=TIMEOUT_6_SEC)
+    index_page.btn_hide_div.click()
+    assert app.wait.element_to_be_invisible(index_page.test_div.selector, timeout=TIMEOUT_6_SEC)
 
 
 def test_expect_invisibility(app):
