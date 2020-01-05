@@ -100,6 +100,3 @@ class SeWebElement(SeElementInterface):
 
     def __repr__(self):
         return f"{self.web_element} with selector {self.selector}."
-
-    def __eq__(self, other):
-        return self.web_element == other.web_element
