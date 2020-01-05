@@ -7,6 +7,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 
+from selen_kaa.errors import TIMEOUT_BASE_ERR_MSG
 from selen_kaa.utils import se_utils
 from selen_kaa.element.se_element_interface import SeElementInterface
 from selen_kaa.utils import custom_types
@@ -15,7 +16,6 @@ from selen_kaa.utils.custom_funcs import single_dispatch
 
 TimeoutType = custom_types.TimeoutType
 ElementType = custom_types.ElementType
-TIMEOUT_BASE_ERR_MSG = "TimeoutException while waited {} second(s) for the element '{}' to {}."
 
 
 class Wait:
