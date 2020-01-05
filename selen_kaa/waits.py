@@ -1,6 +1,5 @@
 import time
 from typing import Callable
-from functools import singledispatch
 
 from selenium.webdriver.support import wait
 from selenium.webdriver.support import expected_conditions as ec
@@ -11,6 +10,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 from selen_kaa.utils import se_utils
 from selen_kaa.element.se_element_interface import SeElementInterface
 from selen_kaa.utils import custom_types
+from selen_kaa.utils.custom_funcs import single_dispatch
 
 
 TimeoutType = custom_types.TimeoutType
@@ -30,7 +30,7 @@ class Wait:
             raise TypeError("Selector should be a string for `element_be_in_dom()` method.")
         return self._set_condition_for_wait(selector, ec.presence_of_element_located, timeout)
 
-    @singledispatch
+    @single_dispatch
     def element_to_be_visible(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
         self._check_target_type(target)
 
@@ -49,7 +49,7 @@ class Wait:
     def __element_to_be_visible_we(self, target: WebElement, timeout=DEFAULT_TIMEOUT):
         return self._wait_until(ec.visibility_of(target), timeout)
 
-    @singledispatch
+    @single_dispatch
     def element_to_be_invisible(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """True if the element is not present and/or not visible.
         Difference from `element_not_present`: returns True if element is not visible,
@@ -71,15 +71,15 @@ class Wait:
         return self.wait_fluently(wrapped_webelement_disappears, timeout,
                                   TIMEOUT_BASE_ERR_MSG.format(timeout, target.selector, "disappear"))
 
-    @element_to_be_visible.register(str)
+    @element_to_be_invisible.register(str)
     def __element_to_be_invisible_str(self, target: str, timeout):
         return self._set_condition_for_wait(target, ec.invisibility_of_element_located, timeout)
 
-    @element_to_be_visible.register(WebElement)
+    @element_to_be_invisible.register(WebElement)
     def __element_to_be_invisible_we(self, target: WebElement, timeout):
         return self._wait_until(ec.invisibility_of_element(target), timeout)
 
-    @singledispatch
+    @single_dispatch
     def element_not_present(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """True if there is no NoSuchElementException or StaleElementReferenceException.
         Element should be neither visible, nor enabled, nor be present in DOM.
@@ -108,7 +108,7 @@ class Wait:
         return self._wait_until(ec.staleness_of(target), timeout)
 
 
-    @singledispatch
+    @single_dispatch
     def element_to_contain_text(self, target: ElementType, text: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait for text attribute of the web element to contain expected text.
         True for `in` comparision, e.g. "test" in "some test here".
@@ -141,7 +141,7 @@ class Wait:
         return self.wait_fluently(has_text_in_target, timeout, err_msg),
 
 
-    @singledispatch
+    @single_dispatch
     def element_to_have_exact_text(self, target: ElementType, text: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait for the web element to have exact text
         True for exact comparision of expected text with actual text attribute of web element.
@@ -172,7 +172,7 @@ class Wait:
                   f" Actual text '{target.text}'"
         return self.wait_fluently(has_exact_text_in_target, timeout, err_msg),
 
-    @singledispatch
+    @single_dispatch
     def element_have_similar_text(self, target: ElementType, text: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait until web element contains expected text.
         Returns True if similar text.
@@ -215,7 +215,7 @@ class Wait:
     def __element_have_similar_text_we(self, target: WebElement, text: str, timeout=DEFAULT_TIMEOUT):
         return self._element_have_similar_text_helper(target, text, timeout)
 
-    @singledispatch
+    @single_dispatch
     def element_to_get_class(self, target: ElementType, expected_class: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait until web element gets expected class."""
         self._check_target_type(target)
@@ -282,7 +282,7 @@ class Wait:
         """Wait for page's title to contain a specific string."""
         return self._wait_until(condition=ec.title_contains(title), timeout=timeout)
 
-    @singledispatch
+    @single_dispatch
     def element_to_include_child_element(self, target: ElementType,
                                          child_css_selector,
                                          timeout: TimeoutType = DEFAULT_TIMEOUT):
@@ -318,7 +318,7 @@ class Wait:
     def _element_to_include_child_element_for_we(self, target: WebElement, child_css_selector, timeout=DEFAULT_TIMEOUT):
         return self._wait_child_element(target, child_css_selector, timeout)
 
-    @singledispatch
+    @single_dispatch
     def element_to_be_in_viewport(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait until element gets into viewport's coordinates."""
         target.get_web_element_by_timeout(timeout)

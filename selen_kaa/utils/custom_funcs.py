@@ -1,7 +1,7 @@
 from functools import singledispatch, update_wrapper
 
 
-def single_patch(func):
+def single_dispatch(func):
     dispatcher = singledispatch(func)
 
     def wrapper(*args, **kw):

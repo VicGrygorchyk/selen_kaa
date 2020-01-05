@@ -28,7 +28,7 @@ class SeElementsArray:
     def _lazy_array(self):
         if not self._elements_array:
             elements_ = WebDriverWait(self._webdriver, self._timeout).until(
-                presence_of_all_elements_located((get_selector_type(self.selector), self.selector))
+                presence_of_all_elements_located((get_selector_type(self._css_selector), self._css_selector))
             )
             for elem in elements_:
                 wrapped_elem = SeWebElement(self._webdriver, self._css_selector, self._timeout)
@@ -42,7 +42,12 @@ class SeElementsArray:
             orig_attr = self._lazy_array.__getattribute__(attr)
             if callable(orig_attr):
                 def hooked(*args, **kwargs):
-                    return orig_attr(*args, **kwargs)
+                    # prevent recursion
+                    result = orig_attr(*args, **kwargs)
+                    # prevent recursion
+                    if result == self._lazy_array:
+                        return self
+                    return result
                 return hooked
             return orig_attr
         except AttributeError as exc:
