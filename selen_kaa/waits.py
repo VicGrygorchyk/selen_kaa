@@ -21,6 +21,7 @@ ElementType = custom_types.ElementType
 class Wait:
 
     DEFAULT_TIMEOUT = 4
+    PULL_FREQUENCY = 0.2
 
     def __init__(self, webdriver: WebDriver):
         self._webdriver: WebDriver = webdriver
@@ -60,7 +61,7 @@ class Wait:
         def wrapped_webelement_disappears():
             try:
                 # init web_element within wait's timeout, not web_element's
-                target.get_web_element_by_timeout(timeout)
+                target.get_web_element_by_timeout(self.PULL_FREQUENCY)
                 if target.web_element.is_displayed():
                     return False
                 # return True if element is not stale and is not displayed
@@ -88,11 +89,11 @@ class Wait:
 
         def no_wrapped_webelement_in_dom():
             try:
-                target.get_web_element_by_timeout(timeout)
+                target.get_web_element_by_timeout(self.PULL_FREQUENCY)
                 if target.web_element.is_enabled():
                     return False
-                # it might be unreached condition, but keep it for code consistency
-                return target
+                # return False even element isn't enabled, but still present
+                return False
             except (NoSuchElementException, StaleElementReferenceException):
                 return target
 
@@ -396,15 +397,15 @@ class Wait:
         :return: element if condition is True, else raises TimeoutException
 
         """
-        if not timeout:
+        if timeout is None:
             timeout = 0
         start_time = time.time()
         while True:
-            if time.time() - start_time >= timeout:
-                raise TimeoutException(err_msg)
             res = condition()
             if res:
                 return res
+            if time.time() - start_time >= timeout:
+                raise TimeoutException(err_msg)
             time.sleep(0.3)
 
     @staticmethod

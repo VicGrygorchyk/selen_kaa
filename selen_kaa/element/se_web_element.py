@@ -99,4 +99,4 @@ class SeWebElement(SeElementInterface):
         return self.web_element.get_attribute("class")
 
     def __repr__(self):
-        return f"{self.web_element} with selector {self.selector}."
+        return f"Selen-kaa WebElement with selector `{self.selector}`."

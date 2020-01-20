@@ -6,8 +6,7 @@ import logging
 from selenium.common.exceptions import WebDriverException, UnexpectedAlertPresentException
 
 from selen_kaa.webdriver import SeWebDriver
-from selen_kaa.component.component import Component
-from selen_kaa.component.components_array import ComponentsArray
+from selen_kaa.element.se_web_element import SeWebElement
 from selen_kaa.utils import se_utils
 
 
@@ -15,23 +14,14 @@ DEFAULT_TIMEOUT = 7
 TimeoutType = se_utils.TimeoutType
 
 
-class WebElementWrapper(Component):
-
-    def __init__(self, source):
-        super().__init__(source)
+class WebElementWrapper(SeWebElement):
 
     def should_be_unclickable(self, timeout: TimeoutType = 0.1):
         try:
-            self.source.click(timeout)
+            self.click(timeout)
         except ElementNotClickableError:
             return True
         return False
-
-
-class WrappedElementsArray(ComponentsArray):
-
-    def __init__(self, source_array):
-        super().__init__(source_array)
 
 
 class ElementNotClickableError(WebDriverException):
@@ -61,8 +51,5 @@ class DriverWrapper(SeWebDriver):
         except (WebDriverException, UnexpectedAlertPresentException):
             logging.error("Unable to get a screenshot from WebDriver.")
 
-    def init_web_element(self, selector: str, timeout: TimeoutType = None):
-        return WebElementWrapper(super().init_web_element(selector, timeout))
-
-    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None):
-        return super().init_all_web_elements(selector, timeout)
+    def init_web_element(self, selector: str, timeout: TimeoutType = 1):
+        return WebElementWrapper(self.webdriver, selector, timeout)

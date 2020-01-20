@@ -77,7 +77,13 @@ def test_expect_invisibility_has_no_exception(app):
     assert not index_page.test_div.expect.be_invisible(timeout=1)
 
 
-def test_timeout_duration_on_visibility(app):
+def test_expect_no_exc_if_no_such_element(app):
+    # no exception even such element doesn't exist
+    index_page = app.goto_index_page()
+    assert index_page.no_such_element.expect.be_invisible(1)
+
+
+def test_timeout_duration_on_expect_visibility(app):
     index_page = app.goto_index_page()
     start_t = time.time()
     assert not index_page.test_div.expect.be_visible(timeout=1)
@@ -88,3 +94,40 @@ def test_timeout_duration_on_visibility(app):
     assert not index_page.test_div.expect.be_visible(timeout=5)
     after_6_sec_time = time.time()
     assert all((after_6_sec_time - start_t2 >= 5, after_6_sec_time - start_t2 <= 6))
+
+
+def test_timeout_duration_on_invisibility(app):
+    index_page = app.goto_index_page()
+    start_t = time.time()
+    assert index_page.test_div.expect.be_invisible(timeout=1)
+    after_1_sec_time = time.time()
+    # it should be True faster than 1 seconds, as the condition is true from beginning
+    assert after_1_sec_time - start_t <= 1
+
+    start_t2 = time.time()
+    assert index_page.test_div.expect.be_invisible(timeout=5)
+    after_6_sec_time = time.time()
+    # it should be True faster than 5 seconds, as the condition is true from beginning
+    assert after_6_sec_time - start_t2 <= 1
+
+
+def test_invisible_timeout_none_and_zero(app):
+    index_page = app.goto_index_page()
+    start_t = time.time()
+    assert index_page.test_div.expect.be_invisible()
+    assert index_page.test_div.expect.be_invisible(None)
+    assert index_page.test_div.expect.be_invisible(0)
+    after_time = time.time()
+    # it should be faster than 1 seconds
+    assert after_time - start_t <= 1
+
+
+def test_visible_timeout_none_and_zero(app):
+    index_page = app.goto_index_page()
+    start_t = time.time()
+    assert index_page.btn_show_div.expect.be_visible()
+    assert index_page.btn_show_div.expect.be_visible(None)
+    assert index_page.btn_show_div.expect.be_visible(0)
+    after_time = time.time()
+    # it should be faster than 1 seconds
+    assert after_time - start_t <= 1
