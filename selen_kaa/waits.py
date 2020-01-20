@@ -92,8 +92,8 @@ class Wait:
                 target.get_web_element_by_timeout(self.PULL_FREQUENCY)
                 if target.web_element.is_enabled():
                     return False
-                # it might be unreached condition, but keep it for code consistency
-                return target
+                # return False even element isn't enabled, but still present
+                return False
             except (NoSuchElementException, StaleElementReferenceException):
                 return target
 
