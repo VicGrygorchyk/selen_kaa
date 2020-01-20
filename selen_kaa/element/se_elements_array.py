@@ -1,7 +1,10 @@
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
-from se_wrapper.utils import se_utils
-from se_wrapper.utils import custom_types
+from selen_kaa.utils.se_utils import get_selector_type
+from selenium.webdriver.support.expected_conditions import presence_of_all_elements_located
+from selen_kaa.utils import custom_types
+from selen_kaa.element.se_web_element import SeWebElement
 
 
 TimeoutType = custom_types.TimeoutType
@@ -15,24 +18,20 @@ class SeElementsArray:
 
     DEFAULT_TIMEOUT = 4
 
-    def __init__(self, webdriver: WebDriver, css_selector: str,
-                 WrappedElementType: type, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def __init__(self, webdriver: WebDriver, css_selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         self._webdriver = webdriver
         self._css_selector = css_selector
         self._timeout = timeout
         self._elements_array = []
-        self._WrappedElementType = WrappedElementType
 
     @property
     def _lazy_array(self):
         if not self._elements_array:
-            elements_ = se_utils.find_all_elements_by_css(self._webdriver,
-                                                          self._css_selector,
-                                                          self._timeout)
+            elements_ = WebDriverWait(self._webdriver, self._timeout).until(
+                presence_of_all_elements_located((get_selector_type(self._css_selector), self._css_selector))
+            )
             for elem in elements_:
-                wrapped_elem = self._WrappedElementType(self._webdriver,
-                                                        self._css_selector,
-                                                        self._timeout)
+                wrapped_elem = SeWebElement(self._webdriver, self._css_selector, self._timeout)
                 wrapped_elem.web_element = elem
                 self._elements_array.append(wrapped_elem)
 
@@ -43,7 +42,12 @@ class SeElementsArray:
             orig_attr = self._lazy_array.__getattribute__(attr)
             if callable(orig_attr):
                 def hooked(*args, **kwargs):
-                    return orig_attr(*args, **kwargs)
+                    # prevent recursion
+                    result = orig_attr(*args, **kwargs)
+                    # prevent recursion
+                    if result == self._lazy_array:
+                        return self
+                    return result
                 return hooked
             return orig_attr
         except AttributeError as exc:

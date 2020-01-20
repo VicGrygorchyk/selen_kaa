@@ -1,7 +1,7 @@
 from selenium.common.exceptions import TimeoutException
 
-from se_wrapper.utils import custom_types
-from se_wrapper.element.element_waits import ElementWaits
+from selen_kaa.utils import custom_types
+from selen_kaa.element.element_waits import ElementWaits
 
 TimeoutType = custom_types.TimeoutType
 
