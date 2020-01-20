@@ -21,7 +21,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/VicGrygorchyk/selen_kaa.git",
-    download_url="https://github.com/VicGrygorchyk/selen_kaa/archive/0.0.2.tar.gz",
+    download_url="https://github.com/VicGrygorchyk/selen_kaa/archive/0.0.3.tar.gz",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "test*"]),
     install_requires=get_requirements(),
     classifiers=[
