@@ -36,7 +36,7 @@ class Wait:
         self._check_target_type(target)
 
         def wrapped_visible():
-            target.get_web_element_by_timeout(self.PULL_FREQUENCY)
+            target.get_web_element_by_timeout(timeout)
             return target if target.is_displayed() else False
 
         return self.wait_fluently(wrapped_visible, timeout,
@@ -117,7 +117,7 @@ class Wait:
         self._check_target_type(target)
 
         def has_text_in_target():
-            target.get_web_element_by_timeout(self.PULL_FREQUENCY)
+            target.get_web_element_by_timeout(timeout)
             return target if text in target.text else False
 
         err_msg = f"TimeoutException while waited {timeout} for the element {target.selector} to contain text '{text}'. " \
@@ -150,7 +150,7 @@ class Wait:
         self._check_target_type(target)
 
         def has_exact_text_in_target():
-            target.get_web_element_by_timeout(self.PULL_FREQUENCY)
+            target.get_web_element_by_timeout(timeout)
             return target if text == target.text else False
 
         err_msg = f"TimeoutException while waited {timeout} for the element {target.selector} " \
