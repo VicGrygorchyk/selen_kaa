@@ -1,9 +1,7 @@
 A lightweight wrapper around Selenium Python.<br/>
 It's a simple extension to standard Selenium.
-The Philosophy is "__don't reinvent a wheel,
-use standard Selenium, when it works, and use additional methods, 
-when Selenium annoys, mainly with waits and
- NoSuchElement exception__".
+The Philosophy is "__Use standard Selenium, when it works, and use additional methods, 
+when Selenium annoys, mainly with waits__".
 
 ## Short Features Overview:
 - It is easy integrated with your existing Selenium code and
@@ -58,29 +56,3 @@ element1.should.be_visible(timeout=4) # wait 4 seconds until element becomes vis
 elements = browser.init_web_elements(".test-class")
 elements[0].should.have_exact_text(text="first element", timeout=4)
 ```
-
-- This library is highly customisable for extensions:
-```
-class MyElementWrapper(SeWebElement):
-    pass
-    
-class MyElementsArray(SeElementsArray):
-    pass
-
-class Config(WebDriverConfig):
-
-    WrappedElementType = MyElementWrapper
-    WrappedElementArrayType = MyElementsArray
-    DEFAULT_TIMEOUT = DEFAULT_TIMEOUT
-
-
-class MyDriverWrapper(BrowserDriver):
-
-    def __init__(self, webdriver):
-        super().__init__(webdriver)
-        self.config = Config()
-```
-So, you can add your own methods to `selen-kaa` main classes.
-
-
-###  
