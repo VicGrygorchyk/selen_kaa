@@ -14,3 +14,4 @@ class IndexPage:
         self.btn_show_div = self._webdriver.init_web_element(SHOW_DIV_BTN)
         self.btn_hide_div = self._webdriver.init_web_element(HIDE_DIV_BTN)
         self.test_div = self._webdriver.init_web_element(TEST_DIV_VISIBILITY)
+        self.no_such_element = self._webdriver.init_web_element(".no-such-class-for-no-element")

@@ -77,6 +77,12 @@ def test_expect_invisibility_has_no_exception(app):
     assert not index_page.test_div.expect.be_invisible(timeout=1)
 
 
+def test_expect_no_exc_if_no_such_element(app):
+    # no exception even such element doesn't exist
+    index_page = app.goto_index_page()
+    assert index_page.no_such_element.expect.be_invisible(1)
+
+
 def test_timeout_duration_on_expect_visibility(app):
     index_page = app.goto_index_page()
     start_t = time.time()
