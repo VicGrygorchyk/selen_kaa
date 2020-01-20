@@ -397,15 +397,15 @@ class Wait:
         :return: element if condition is True, else raises TimeoutException
 
         """
-        if not timeout:
+        if timeout is None:
             timeout = 0
         start_time = time.time()
         while True:
-            if time.time() - start_time >= timeout:
-                raise TimeoutException(err_msg)
             res = condition()
             if res:
                 return res
+            if time.time() - start_time >= timeout:
+                raise TimeoutException(err_msg)
             time.sleep(0.3)
 
     @staticmethod
