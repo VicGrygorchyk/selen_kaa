@@ -109,3 +109,25 @@ def test_timeout_duration_on_invisibility(app):
     after_6_sec_time = time.time()
     # it should be True faster than 5 seconds, as the condition is true from beginning
     assert after_6_sec_time - start_t2 <= 1
+
+
+def test_invisible_timeout_none_and_zero(app):
+    index_page = app.goto_index_page()
+    start_t = time.time()
+    assert index_page.test_div.expect.be_invisible()
+    assert index_page.test_div.expect.be_invisible(None)
+    assert index_page.test_div.expect.be_invisible(0)
+    after_time = time.time()
+    # it should be faster than 1 seconds
+    assert after_time - start_t <= 1
+
+
+def test_visible_timeout_none_and_zero(app):
+    index_page = app.goto_index_page()
+    start_t = time.time()
+    assert index_page.btn_show_div.expect.be_visible()
+    assert index_page.btn_show_div.expect.be_visible(None)
+    assert index_page.btn_show_div.expect.be_visible(0)
+    after_time = time.time()
+    # it should be faster than 1 seconds
+    assert after_time - start_t <= 1
