@@ -21,6 +21,7 @@ ElementType = custom_types.ElementType
 class Wait:
 
     DEFAULT_TIMEOUT = 4
+    PULL_FREQUENCY = 0.2
 
     def __init__(self, webdriver: WebDriver):
         self._webdriver: WebDriver = webdriver
@@ -35,7 +36,7 @@ class Wait:
         self._check_target_type(target)
 
         def wrapped_visible():
-            target.get_web_element_by_timeout(timeout)
+            target.get_web_element_by_timeout(self.PULL_FREQUENCY)
             return target if target.is_displayed() else False
 
         return self.wait_fluently(wrapped_visible, timeout,
@@ -60,7 +61,7 @@ class Wait:
         def wrapped_webelement_disappears():
             try:
                 # init web_element within wait's timeout, not web_element's
-                target.get_web_element_by_timeout(timeout)
+                target.get_web_element_by_timeout(self.PULL_FREQUENCY)
                 if target.web_element.is_displayed():
                     return False
                 # return True if element is not stale and is not displayed
@@ -88,7 +89,7 @@ class Wait:
 
         def no_wrapped_webelement_in_dom():
             try:
-                target.get_web_element_by_timeout(timeout)
+                target.get_web_element_by_timeout(self.PULL_FREQUENCY)
                 if target.web_element.is_enabled():
                     return False
                 # it might be unreached condition, but keep it for code consistency
@@ -116,7 +117,7 @@ class Wait:
         self._check_target_type(target)
 
         def has_text_in_target():
-            target.get_web_element_by_timeout(timeout)
+            target.get_web_element_by_timeout(self.PULL_FREQUENCY)
             return target if text in target.text else False
 
         err_msg = f"TimeoutException while waited {timeout} for the element {target.selector} to contain text '{text}'. " \
@@ -149,7 +150,7 @@ class Wait:
         self._check_target_type(target)
 
         def has_exact_text_in_target():
-            target.get_web_element_by_timeout(timeout)
+            target.get_web_element_by_timeout(self.PULL_FREQUENCY)
             return target if text == target.text else False
 
         err_msg = f"TimeoutException while waited {timeout} for the element {target.selector} " \
