@@ -53,3 +53,8 @@ class DriverWrapper(SeWebDriver):
 
     def init_web_element(self, selector: str, timeout: TimeoutType = 1):
         return WebElementWrapper(self.webdriver, selector, timeout)
+
+    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None):
+        arr = super().init_all_web_elements(selector, timeout)
+        arr.element_type = WebElementWrapper
+        return arr

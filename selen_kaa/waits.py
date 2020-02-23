@@ -9,7 +9,6 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 
 from selen_kaa.errors import TIMEOUT_BASE_ERR_MSG
 from selen_kaa.utils import se_utils
-from selen_kaa.element.se_element_interface import SeElementInterface
 from selen_kaa.utils import custom_types
 from selen_kaa.utils.custom_funcs import single_dispatch
 
@@ -33,7 +32,6 @@ class Wait:
 
     @single_dispatch
     def element_to_be_visible(self, target: ElementType, timeout: TimeoutType = DEFAULT_TIMEOUT):
-        self._check_target_type(target)
 
         def wrapped_visible():
             target.get_web_element_by_timeout(timeout)
@@ -56,7 +54,6 @@ class Wait:
         Difference from `element_not_present`: returns True if element is not visible,
         but it's still present in DOM.
         """
-        self._check_target_type(target)
 
         def wrapped_webelement_disappears():
             try:
@@ -85,7 +82,6 @@ class Wait:
         """True if there is no NoSuchElementException or StaleElementReferenceException.
         Element should be neither visible, nor enabled, nor be present in DOM.
         """
-        self._check_target_type(target)
 
         def no_wrapped_webelement_in_dom():
             try:
@@ -114,7 +110,6 @@ class Wait:
         """Wait for text attribute of the web element to contain expected text.
         True for `in` comparision, e.g. "test" in "some test here".
         """
-        self._check_target_type(target)
 
         def has_text_in_target():
             target.get_web_element_by_timeout(timeout)
@@ -147,7 +142,6 @@ class Wait:
         """Wait for the web element to have exact text
         True for exact comparision of expected text with actual text attribute of web element.
         """
-        self._check_target_type(target)
 
         def has_exact_text_in_target():
             target.get_web_element_by_timeout(timeout)
@@ -180,7 +174,6 @@ class Wait:
         This method is different from `wait_element_to_contain_text`,
         as it ignores whitespaces, newtabs, cases for similarity comparision.
         """
-        self._check_target_type(target)
         target.get_web_element_by_timeout(timeout)
         element = target
         return self._element_have_similar_text_helper(element, text, timeout)
@@ -219,7 +212,6 @@ class Wait:
     @single_dispatch
     def element_to_get_class(self, target: ElementType, expected_class: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait until web element gets expected class."""
-        self._check_target_type(target)
         target.get_web_element_by_timeout(timeout)
         element = target
         return self._wait_element_to_get_class(element, expected_class, timeout)
@@ -288,7 +280,6 @@ class Wait:
                                          child_css_selector,
                                          timeout: TimeoutType = DEFAULT_TIMEOUT):
         """Wait for a web element to have another web element as a child element."""
-        self._check_target_type(target)
         target.get_web_element_by_timeout(timeout)
         webelement_ = target
         return self._wait_child_element(webelement_, child_css_selector, timeout)
@@ -407,9 +398,3 @@ class Wait:
             if time.time() - start_time >= timeout:
                 raise TimeoutException(err_msg)
             time.sleep(0.3)
-
-    @staticmethod
-    def _check_target_type(target):
-        if not isinstance(target, SeElementInterface):
-            raise TypeError(f"Error type: {type(target)}. "
-                            f"Target shall be an instance of string, WebElement or WebElementWrapper.")
