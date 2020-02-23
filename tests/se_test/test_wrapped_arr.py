@@ -1,5 +1,7 @@
 from selen_kaa.element.se_elements_array import SeElementsArray
 from selen_kaa.element.se_web_element import SeWebElement
+
+from tests.webapp.driver_wrapper import WebElementWrapper
 from tests.webapp.pages.index_page import THE_SAME_CLASS
 
 
@@ -20,6 +22,8 @@ def test_arr_is_lazy(app):
 def test_can_override_webelements_type(app):
     index_page = app.goto_index_page()
     assert isinstance(index_page.the_same_text, SeElementsArray)
+    assert type(index_page.the_same_text[0]) is WebElementWrapper
+    assert isinstance(index_page.the_same_text[0], SeWebElement)
 
 
 def test_elem_in_arr(app):
