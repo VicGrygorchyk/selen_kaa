@@ -12,8 +12,11 @@ def test_init_elements_works(app):
 
 
 def test_arr_is_lazy(app):
-    """Verify the init doesn't crash before the element is visible."""
+    """Verify the array is empty before the element is visible.
+    The array is populated after elements became visible.
+    """
     thesame_element = app.web_driver.init_all_web_elements(THE_SAME_CLASS)
+    assert not thesame_element
     app.goto_index_page()
     # only here element is rendered
     assert len(thesame_element) == 7
