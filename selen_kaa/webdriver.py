@@ -69,4 +69,6 @@ class SeWebDriver:
         timeout_ = DEFAULT_TIMEOUT
         if timeout or timeout == 0:
             timeout_ = timeout
-        return SeElementsArray(self.webdriver, selector, timeout_)
+        arr = SeElementsArray(self.webdriver, selector, timeout_)
+        arr.element_type = SeWebElement
+        return arr
