@@ -37,21 +37,23 @@ class ElementWaits:
         timeout_ = timeout if timeout is not None else self._timeout
         return self._wait.element_to_get_class(self.__web_element, expected_class, timeout_)
 
-    def include_element(self, child_css_selector: str, timeout: TimeoutType = None):
+    def include_element(self, child_selector: str, timeout: TimeoutType = None):
         """True when an element gets a desired child element.
-        :param child_css_selector: a css selector for a child element.
+        :param child_selector: a css or xpath selector for a child element.
         :param timeout: time to wait for the condition.
 
         """
         timeout_ = timeout if timeout is not None else self._timeout
         return self._wait.element_to_include_child_element(
             self.__web_element,
-            child_css_selector,
+            child_selector,
             timeout_
         )
 
     def contain_text(self, text: str, timeout: TimeoutType = None):
         """True if an element contains a provided text in its text attribute.
+        Not precise comparision, e.g. returns True for:
+        "some" in "this is some text"
         :param text: expected text.
         :param timeout: time to wait for the condition.
 
@@ -62,7 +64,8 @@ class ElementWaits:
     def have_similar_text(self, text: str, timeout: TimeoutType = None):
         """True if an element has a similar text in texts attribute.
         Not precise comparision, e.g. returns True for:
-        "some" in "this is some text", " test\n" and "test", "TEST" and "test"
+        "some" in "this is some text", " test\n" and "test", "TEST" and "test".
+        Ignores whitespaces and is case insensitive.
         :param text: a text to compare for similarity.
         :param timeout: time to wait for the condition.
 
