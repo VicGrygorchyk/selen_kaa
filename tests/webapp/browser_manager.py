@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.chrome.options import DesiredCapabilities
 
 from tests.webapp.driver_wrapper import DriverWrapper
 from tests.webapp.setup import LOGS_SETUP, BROWSER_WIDTH, BROWSER_HEIGHT
@@ -29,14 +28,13 @@ class BrowserManager:
 
     @staticmethod
     def _get_chrome_driver():
-        cap = DesiredCapabilities.CHROME.copy()
-        cap['loggingPrefs'] = LOGS_SETUP
         options = ChromeOptions()
         options.add_argument('--disable-translate')
         options.add_argument('--ignore-gpu-blacklist')
         options.add_argument('--verbose')
         options.add_argument('--no-sandbox')
-        driver = webdriver.Chrome(options=options, desired_capabilities=cap)
+        options.set_capability("goog:loggingPrefs", LOGS_SETUP)
+        driver = webdriver.Chrome(options=options)
         driver.set_window_size(BROWSER_WIDTH, BROWSER_HEIGHT)
         return driver
 
