@@ -1,3 +1,5 @@
+from typing import Optional
+
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
@@ -17,12 +19,17 @@ class SeElementsArray:
 
     DEFAULT_TIMEOUT = 4
 
-    def __init__(self, webdriver: WebDriver, css_selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def __init__(self,
+                 webdriver: WebDriver,
+                 selector: str,
+                 timeout: TimeoutType = DEFAULT_TIMEOUT,
+                 locator_strategy: Optional[str] = None):
         self._webdriver = webdriver
-        self._css_selector = css_selector
+        self._selector = selector
         self._timeout = timeout
         self._elements_array = []
         self._element_type = None
+        self.locator_strategy = locator_strategy if locator_strategy else get_selector_type(self._selector)
 
     @property
     def element_type(self):
@@ -40,14 +47,16 @@ class SeElementsArray:
         if len(self._elements_array) < 1:
             try:
                 elements_ = WebDriverWait(self._webdriver, self._timeout).until(
-                    presence_of_all_elements_located((get_selector_type(self._css_selector), self._css_selector))
+                    presence_of_all_elements_located((self.locator_strategy, self._selector))
                 )
             except TimeoutException:
                 # return empty array if no element is present on the page
                 return []
 
             for elem in elements_:
-                wrapped_elem = self._element_type(self._webdriver, self._css_selector, self._timeout)
+                wrapped_elem = self._element_type(
+                    self._webdriver, self._selector, self._timeout, self.locator_strategy
+                )
                 wrapped_elem.web_element = elem
                 self._elements_array.append(wrapped_elem)
 
