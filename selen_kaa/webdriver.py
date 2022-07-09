@@ -45,12 +45,13 @@ class SeWebDriver:
     def action_chains(self):
         return ActionChains(self.webdriver)
 
-    def init_web_element(self, selector: str, timeout: TimeoutType = None) -> SeWebElement:
+    def init_web_element(self, selector: str, timeout: TimeoutType = None, locator_strategy=None) -> SeWebElement:
         """Init a new WrappedWebElement.
         Lazy initialization. Element would be called on the time of first interaction.
-        :param selector: str as css selector or xpath
+        :param selector: str as any locator, css selector or xpath
         :param timeout: time to wait until element appears
-        :return: WrappedWebElement
+        :param locator_strategy: field of class `selenium.webdriver.common.by::By` or `MobileBy` for Appium
+        :return: SeWebElement
         """
         if selector is None:
             raise Exception("Selector should be not empty.")
@@ -58,17 +59,20 @@ class SeWebDriver:
         timeout_ = DEFAULT_TIMEOUT
         if timeout or timeout == 0:
             timeout_ = timeout
-        return SeWebElement(self.webdriver, selector, timeout_)
+        return SeWebElement(self.webdriver, selector, timeout_, locator_strategy)
 
-    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None) -> SeElementsArray:
+    def init_all_web_elements(self, selector: str, timeout: TimeoutType = None, locator_strategy=None) -> SeElementsArray:
         """Init a list with references to WrappedWebElement.
         Lazy initialization. All elements would be called on the time of first interaction
         with any of the elements.
-        :return: List of WrappedWebElements
+        :param selector: str as any locator, css selector or xpath
+        :param timeout: time to wait until element appears
+        :param locator_strategy: field of class `selenium.webdriver.common.by::By` or `MobileBy` for Appium
+        :return: List of SeWebElement
         """
         timeout_ = DEFAULT_TIMEOUT
         if timeout or timeout == 0:
             timeout_ = timeout
-        arr = SeElementsArray(self.webdriver, selector, timeout_)
+        arr = SeElementsArray(self.webdriver, selector, timeout_, locator_strategy)
         arr.element_type = SeWebElement
         return arr

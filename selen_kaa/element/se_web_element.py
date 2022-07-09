@@ -1,3 +1,5 @@
+from typing import Optional
+
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
@@ -23,13 +25,18 @@ class SeWebElement(SeElementInterface):
 
     DEFAULT_TIMEOUT = 4
 
-    def __init__(self, webdriver: WebDriver, selector: str, timeout: TimeoutType = DEFAULT_TIMEOUT):
+    def __init__(self,
+                 webdriver: WebDriver,
+                 selector: str,
+                 timeout: TimeoutType = DEFAULT_TIMEOUT,
+                 locator_strategy: Optional[str] = None):
         self.timeout = timeout
         self._webdriver = webdriver
         self._selector = selector
         self._element = None
         self._expect = None
         self._should = None
+        self.locator_strategy = locator_strategy if locator_strategy else get_selector_type(self._selector)
 
     @property
     def web_element(self):
@@ -40,10 +47,10 @@ class SeWebElement(SeElementInterface):
         if self._element is None:
             try:
                 return WebDriverWait(self._webdriver, timeout).until(
-                    presence_of_element_located((get_selector_type(self.selector), self.selector))
+                    presence_of_element_located((self.locator_strategy, self._selector))
                 )
             except TimeoutException as exc:
-                raise NoSuchElementException(f"Web Element with selector {self.selector} has not been found."
+                raise NoSuchElementException(f"Web Element with selector {self._selector} has not been found."
                                              f"\n{exc.msg}")
         return self._element
 
@@ -99,4 +106,4 @@ class SeWebElement(SeElementInterface):
         return self.web_element.get_attribute("class")
 
     def __repr__(self):
-        return f"Selen-kaa WebElement with selector `{self.selector}`."
+        return f"Selen-kaa WebElement with selector `{self._selector}`."
