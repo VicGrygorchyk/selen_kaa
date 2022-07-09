@@ -1,7 +1,6 @@
 import pytest
 from selenium.webdriver.common.by import By
 
-
 from selen_kaa.utils import se_utils
 
 
