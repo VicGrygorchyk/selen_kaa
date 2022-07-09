@@ -1,11 +1,11 @@
-An lightweight extension to Selenium Python.<br/>
+An lightweight extension to Selenium\Appium Python.<br/>
 It's inspired by [Selenide](https://github.com/selenide/selenide "Selenide GitHub page") from Java world and 
-obsolete [Selene](https://github.com/yashaka/selene "Selene Github page")
+[Selene](https://github.com/yashaka/selene "Selene Github page")
 
 ## Short Features Overview:
-- **Selen-kaa** is easy integrated with your existing Selenium code, 
-- **Sele-kaa** doesn't break any line of your existing project!
-- **Selen-kaa** is compatible with any standard Selenium methods.
+- **Selen-kaa** is easy integrated with your existing either Selenium or Appium code, 
+- **Selen-kaa** doesn't break any line of your existing project!
+- **Selen-kaa** is compatible with any standard Selenium\Appium methods.
 <br/>For instance:
 ```
 # Your old Selenium code
@@ -20,10 +20,10 @@ browser.get("https://www.seleniumhq.org/")
 # any methods from the WebDriver works!
 element = browser.find_element_by_css(".test-class")
 ```
-Besides standard Selenium, **Selen-kaa** introduces more convenient way to 
+Besides, standard Selenium\Appium, **Selen-kaa** introduces more convenient way to 
 interact with a web page and web elements through `init_web_element()`
 and `init_all_web_elements()`:<br/>
-What it gives you? Possibility to create the web element in `__init__()` method of a Page Object, 
+What it brings you? Possibility to create the web element in `__init__()` method of a Page Object, 
 as the WebDriver would search this element only at the time of interaction with it:
 ```
 browser = BrowserDriver(webdriver.Chrome())
@@ -67,6 +67,12 @@ browser.init_web_element("button[class='my-button']")
 browser.init_web_element("//div//a[contains(@href, '/imgres')]")
 ```
 [About CSS selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors "Mozilla page")
+
+If you need any other strategy to find an element, provide an optional `locator_strategy`, e.g. for `Appium`:
+```
+browser.init_web_element("**/XCUIElementTypeImage[`label == "test"`]", locator_strategy=MobileBy.IOS_CLASS_CHAIN)
+browser.init_web_element("access-id", locator_strategy=MobileBy.ACCESSIBILITY_ID)
+```
 
 ### More handful methods
 Wait for element with css selector ".test-class" to be visible.
