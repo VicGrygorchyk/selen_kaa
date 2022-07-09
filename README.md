@@ -1,4 +1,4 @@
-An lightweight extension to Selenium\Appium Python.<br/>
+An lightweight extension to Selenium/Appium Python.<br/>
 It's inspired by [Selenide](https://github.com/selenide/selenide "Selenide GitHub page") from Java world and 
 [Selene](https://github.com/yashaka/selene "Selene Github page")
 
@@ -20,7 +20,7 @@ browser.get("https://www.seleniumhq.org/")
 # any methods from the WebDriver works!
 element = browser.find_element_by_css(".test-class")
 ```
-Besides, standard Selenium\Appium, **Selen-kaa** introduces more convenient way to 
+Besides, standard Selenium/Appium, **Selen-kaa** introduces more convenient way to 
 interact with a web page and web elements through `init_web_element()`
 and `init_all_web_elements()`:<br/>
 What it brings you? Possibility to create the web element in `__init__()` method of a Page Object, 
